@@ -1,0 +1,14 @@
+[package]
+name = "software-engineering"
+version = "0.1.0"
+edition = "2024"
+authors = ["Joel Parker Henderson <joel@joelparkerhenderson.com>"]
+description = "Software engineering metrics models, structs, calculations, and examples."
+readme = "README.md"
+repository = "https://github.com/publicprojects-io/software-engineering-rust-crate/"
+license = "MIT OR Apache-2.0 OR BSD-3-Clause OR GPL-2.0-only OR GPL-3.0-only"
+keywords = ["software", "engineering", "metrics", "devops", "analytics"]
+categories = ["science", "data-structures", "development-tools"]
+include = ["src/**/*", "LICENSE.md", "README.md"]
+
+[dependencies]
