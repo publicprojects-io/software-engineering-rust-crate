@@ -70,6 +70,9 @@
 //! **Metrics programs** —
 //! [`maturity_model`]
 
+#![deny(clippy::pedantic)]
+#![deny(missing_docs)]
+
 pub mod ai_assisted_development;
 pub mod code_churn;
 pub mod code_complexity;

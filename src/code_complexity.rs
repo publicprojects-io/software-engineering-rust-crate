@@ -1,6 +1,6 @@
 //! # Code Complexity Metrics
 //!
-//! **Cyclomatic complexity**, introduced by Thomas J. McCabe in 1976, counts
+//! **Cyclomatic complexity**, introduced by Thomas J. `McCabe` in 1976, counts
 //! the number of independent paths through a piece of code's control flow:
 //! each `if`, loop, and branch adds to the count. Code with more independent
 //! paths through it is harder to fully test, harder to reason about, and,
@@ -54,12 +54,12 @@
 //! ## Sources
 //!
 //! - Chapter 4.1, Code complexity metrics.
-//! - McCabe, Thomas J., "A Complexity Measure," *IEEE Transactions on
+//! - `McCabe`, Thomas J., "A Complexity Measure," *IEEE Transactions on
 //!   Software Engineering* (1976).
 //!
 //! Topic doc: software-engineering-metrics/locales/en-001/chapters/04-01-code-complexity-metrics.md
 
-/// McCabe cyclomatic complexity: independent paths through control flow.
+/// `McCabe` cyclomatic complexity: independent paths through control flow.
 ///
 /// `edges - nodes + 2`, computed on the function's control-flow graph. A
 /// straight-line function with no branches scores 1 (the minimum); each
@@ -84,6 +84,7 @@
 /// // Straight-line function: 2 nodes, 1 edge -> complexity 1.
 /// assert_eq!(cyclomatic_complexity(1, 2), 1);
 /// ```
+#[must_use]
 pub fn cyclomatic_complexity(edges: i64, nodes: i64) -> i64 {
     edges - nodes + 2
 }

@@ -39,10 +39,10 @@
 //! assert_eq!(time_to_first_review(0.0, 5.0), 5.0);
 //!
 //! // Five reviewers complete 40, 10, 10, 10, and 10 reviews in a quarter:
-//! // one reviewer is doing 4x the average review load.
+//! // one reviewer is doing 2.5x the average review load.
 //! let reviews = [40.0, 10.0, 10.0, 10.0, 10.0];
 //! let ratio = reviewer_load_concentration_ratio(&reviews).unwrap();
-//! assert!((ratio - 4.0).abs() < 1e-9);
+//! assert!((ratio - 2.5).abs() < 1e-9);
 //! ```
 //!
 //! ## Pitfalls
@@ -95,6 +95,7 @@
 /// // Opened at hour 10, first reviewed at hour 34: an 18-hour wait.
 /// assert_eq!(time_to_first_review(10.0, 34.0), 24.0);
 /// ```
+#[must_use]
 pub fn time_to_first_review(opened_at: f64, first_response_at: f64) -> f64 {
     first_response_at - opened_at
 }
@@ -136,22 +137,27 @@ pub fn time_to_first_review(opened_at: f64, first_response_at: f64) -> f64 {
 ///
 /// // Concentrated load: one reviewer far above the mean.
 /// let concentrated = [40.0, 10.0, 10.0, 10.0, 10.0];
-/// assert!((reviewer_load_concentration_ratio(&concentrated).unwrap() - 4.0).abs() < 1e-9);
+/// assert!((reviewer_load_concentration_ratio(&concentrated).unwrap() - 2.5).abs() < 1e-9);
 ///
 /// assert_eq!(reviewer_load_concentration_ratio(&[]), None);
 /// ```
+#[must_use]
 pub fn reviewer_load_concentration_ratio(reviews_per_reviewer: &[f64]) -> Option<f64> {
     if reviews_per_reviewer.is_empty() {
         return None;
     }
     let sum: f64 = reviews_per_reviewer.iter().sum();
-    let mean = sum / reviews_per_reviewer.len() as f64;
+    // Review counts never approach f64's precision limit, so this cast
+    // never loses precision in practice.
+    #[allow(clippy::cast_precision_loss)]
+    let count = reviews_per_reviewer.len() as f64;
+    let mean = sum / count;
     if mean == 0.0 {
         return None;
     }
     let max = reviews_per_reviewer
         .iter()
-        .cloned()
+        .copied()
         .fold(f64::MIN, f64::max);
     Some(max / mean)
 }
@@ -164,8 +170,8 @@ mod tests {
     // reviewer's first substantive comment or approval."
     #[test]
     fn time_to_first_review_is_first_response_minus_opened() {
-        assert_eq!(time_to_first_review(10.0, 34.0), 24.0);
-        assert_eq!(time_to_first_review(0.0, 5.0), 5.0);
+        assert!((time_to_first_review(10.0, 34.0) - 24.0).abs() < 1e-9);
+        assert!((time_to_first_review(0.0, 5.0) - 5.0).abs() < 1e-9);
     }
 
     // Evenly distributed review load produces a concentration ratio of 1.0.
@@ -178,12 +184,12 @@ mod tests {
     // "A handful of principal engineers were completing over 40% of all
     // code reviews across a two-hundred-person organization" — a
     // worked example of concentrated review load, here as one reviewer
-    // doing four times the average.
+    // doing 2.5 times the team's average.
     #[test]
     fn concentrated_review_load_has_high_ratio() {
         let concentrated = [40.0, 10.0, 10.0, 10.0, 10.0];
         let ratio = reviewer_load_concentration_ratio(&concentrated).unwrap();
-        assert!((ratio - 4.0).abs() < 1e-9);
+        assert!((ratio - 2.5).abs() < 1e-9);
     }
 
     // Undefined for an empty slice or an all-zero slice (mean is zero).

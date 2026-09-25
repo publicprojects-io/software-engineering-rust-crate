@@ -104,6 +104,7 @@
 /// assert_eq!(flow_velocity(40.0, 4.0), Some(10.0));
 /// assert_eq!(flow_velocity(40.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn flow_velocity(items_completed: f64, period: f64) -> Option<f64> {
     if period == 0.0 {
         None
@@ -139,6 +140,7 @@ pub fn flow_velocity(items_completed: f64, period: f64) -> Option<f64> {
 /// assert_eq!(flow_distribution_percent(45.0, 100.0), Some(45.0));
 /// assert_eq!(flow_distribution_percent(1.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn flow_distribution_percent(items_of_type: f64, total_completed_items: f64) -> Option<f64> {
     if total_completed_items == 0.0 {
         None
@@ -175,6 +177,7 @@ pub fn flow_distribution_percent(items_of_type: f64, total_completed_items: f64)
 /// // Entered on day 3, delivered on day 15: 12 days of flow time.
 /// assert_eq!(flow_time(3.0, 15.0), 12.0);
 /// ```
+#[must_use]
 pub fn flow_time(entry: f64, delivery: f64) -> f64 {
     delivery - entry
 }
@@ -205,6 +208,7 @@ pub fn flow_time(entry: f64, delivery: f64) -> f64 {
 /// // 5 items actively being worked, 17 waiting: flow load of 22.
 /// assert_eq!(flow_load_from_items(5, 17), 22);
 /// ```
+#[must_use]
 pub fn flow_load_from_items(active: u32, waiting: u32) -> u32 {
     active + waiting
 }
@@ -236,6 +240,7 @@ pub fn flow_load_from_items(active: u32, waiting: u32) -> u32 {
 /// // Arrival rate of 3 items/day, average flow time of 8 days: WIP = 24.
 /// assert_eq!(littles_law_wip(3.0, 8.0), 24.0);
 /// ```
+#[must_use]
 pub fn littles_law_wip(arrival_rate: f64, flow_time: f64) -> f64 {
     arrival_rate * flow_time
 }
@@ -264,6 +269,7 @@ pub fn littles_law_wip(arrival_rate: f64, flow_time: f64) -> f64 {
 /// assert_eq!(littles_law_flow_time(24.0, 3.0), Some(8.0));
 /// assert_eq!(littles_law_flow_time(24.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn littles_law_flow_time(wip: f64, arrival_rate: f64) -> Option<f64> {
     if arrival_rate == 0.0 {
         None
@@ -300,6 +306,7 @@ pub fn littles_law_flow_time(wip: f64, arrival_rate: f64) -> Option<f64> {
 /// assert_eq!(flow_efficiency_percent(10.0, 100.0), Some(10.0));
 /// assert_eq!(flow_efficiency_percent(10.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn flow_efficiency_percent(active_time: f64, total_elapsed_time: f64) -> Option<f64> {
     if total_elapsed_time == 0.0 {
         None
@@ -324,7 +331,7 @@ mod tests {
     // time" (Little's law, chapter 2.4).
     #[test]
     fn littles_law_wip_equals_arrival_rate_times_flow_time() {
-        assert_eq!(littles_law_wip(3.0, 8.0), 24.0);
+        assert!((littles_law_wip(3.0, 8.0) - 24.0).abs() < 1e-9);
         let recovered_flow_time = littles_law_flow_time(24.0, 3.0).unwrap();
         assert!((recovered_flow_time - 8.0).abs() < 1e-9);
         assert!(littles_law_flow_time(24.0, 0.0).is_none());
@@ -343,7 +350,7 @@ mod tests {
     // Simple elapsed-time and count checks.
     #[test]
     fn flow_time_is_delivery_minus_entry() {
-        assert_eq!(flow_time(3.0, 15.0), 12.0);
+        assert!((flow_time(3.0, 15.0) - 12.0).abs() < 1e-9);
     }
 
     #[test]

@@ -71,7 +71,7 @@
 //! ## Sources
 //!
 //! - Chapter 4.5, Technical debt measurement.
-//! - Cunningham, Ward, "The WyCash Portfolio Management System," *OOPSLA*
+//! - Cunningham, Ward, "The `WyCash` Portfolio Management System," *OOPSLA*
 //!   (1992).
 //! - Kruchten, Philippe, Robert Nord, and Ipek Ozkaya, *Managing Technical
 //!   Debt: Reducing Friction in Software Development*.
@@ -110,6 +110,7 @@
 /// // carried for 12 months = £30,000.
 /// assert_eq!(debt_carrying_cost(2_000.0, 500.0, 12.0), 30_000.0);
 /// ```
+#[must_use]
 pub fn debt_carrying_cost(
     velocity_tax_per_period: f64,
     elevated_defect_cost_per_period: f64,

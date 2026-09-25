@@ -99,6 +99,7 @@
 /// // "lines added, modified, and deleted across successive commits."
 /// assert_eq!(code_churn(220.0, 140.0, 60.0), 420.0);
 /// ```
+#[must_use]
 pub fn code_churn(lines_added: f64, lines_modified: f64, lines_deleted: f64) -> f64 {
     lines_added + lines_modified + lines_deleted
 }
@@ -130,6 +131,7 @@ pub fn code_churn(lines_added: f64, lines_modified: f64, lines_deleted: f64) -> 
 /// // complexity, rather than by either metric alone."
 /// assert_eq!(hotspot_score(420.0, 12.0), 5_040.0);
 /// ```
+#[must_use]
 pub fn hotspot_score(churn: f64, complexity: f64) -> f64 {
     churn * complexity
 }

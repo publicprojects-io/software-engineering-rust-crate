@@ -130,6 +130,7 @@ const ALL_DIMENSIONS: [SpaceDimension; 5] = [
 /// let activity_only = [SpaceDimension::Activity];
 /// assert!(!covers_all_dimensions(&activity_only));
 /// ```
+#[must_use]
 pub fn covers_all_dimensions(measured: &[SpaceDimension]) -> bool {
     ALL_DIMENSIONS.iter().all(|d| measured.contains(d))
 }
@@ -157,6 +158,7 @@ pub fn covers_all_dimensions(measured: &[SpaceDimension]) -> bool {
 /// assert_eq!(missing.len(), 4);
 /// assert!(missing.contains(&SpaceDimension::Satisfaction));
 /// ```
+#[must_use]
 pub fn missing_dimensions(measured: &[SpaceDimension]) -> Vec<SpaceDimension> {
     ALL_DIMENSIONS
         .iter()

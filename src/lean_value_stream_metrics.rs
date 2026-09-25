@@ -96,6 +96,7 @@
 /// assert!((pca - 90.0).abs() < 1e-9);
 /// assert_eq!(percent_complete_and_accurate(90.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn percent_complete_and_accurate(usable_without_rework: f64, total_units: f64) -> Option<f64> {
     if total_units == 0.0 {
         None
@@ -131,6 +132,7 @@ pub fn percent_complete_and_accurate(usable_without_rework: f64, total_units: f6
 ///
 /// assert_eq!(rolled_throughput_yield(&[]), 1.0);
 /// ```
+#[must_use]
 pub fn rolled_throughput_yield(stage_pca_fractions: &[f64]) -> f64 {
     stage_pca_fractions.iter().product()
 }
@@ -162,6 +164,7 @@ pub fn rolled_throughput_yield(stage_pca_fractions: &[f64]) -> f64 {
 /// assert_eq!(takt_time(400.0, 20.0), Some(20.0));
 /// assert_eq!(takt_time(400.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn takt_time(available_working_time: f64, customer_demand: f64) -> Option<f64> {
     if customer_demand == 0.0 {
         None
@@ -182,19 +185,20 @@ mod tests {
         assert!((rty - 0.729).abs() < 1e-9);
     }
 
-    // Worked example: manufacturing company's rolled throughput yield "of
-    // 61%" across a four-stage pipeline.
+    // Worked example: a four-stage pipeline where stages that individually
+    // look reasonable (95%, 90%, 85%, 83%) compound to a rolled throughput
+    // yield well below any single stage.
     #[test]
     fn rolled_throughput_yield_of_61_percent_is_below_any_single_stage() {
         // Four stages that individually look reasonable but compound low.
         let rty = rolled_throughput_yield(&[0.95, 0.90, 0.85, 0.83]);
         assert!(rty < 0.90);
-        assert!((rty - 0.6018_675).abs() < 1e-3);
+        assert!((rty - 0.603_202_5).abs() < 1e-9);
     }
 
     #[test]
     fn empty_rolled_throughput_yield_is_identity() {
-        assert_eq!(rolled_throughput_yield(&[]), 1.0);
+        assert!((rolled_throughput_yield(&[]) - 1.0).abs() < 1e-9);
     }
 
     #[test]

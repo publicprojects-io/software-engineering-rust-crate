@@ -107,6 +107,7 @@
 /// assert_eq!(initial_adoption_percent(600.0, 1_000.0), Some(60.0));
 /// assert_eq!(initial_adoption_percent(1.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn initial_adoption_percent(
     tried_at_least_once: f64,
     target_audience: f64,
@@ -147,6 +148,7 @@ pub fn initial_adoption_percent(
 /// assert_eq!(retained_adoption_percent(48.0, 600.0), Some(8.0));
 /// assert_eq!(retained_adoption_percent(1.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn retained_adoption_percent(
     still_using_after_n_weeks: f64,
     initially_tried: f64,

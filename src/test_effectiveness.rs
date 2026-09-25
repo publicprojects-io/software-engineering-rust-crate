@@ -110,6 +110,7 @@
 /// assert_eq!(test_coverage_percent(95.0, 100.0), Some(95.0));
 /// assert_eq!(test_coverage_percent(1.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn test_coverage_percent(covered: f64, total: f64) -> Option<f64> {
     if total == 0.0 {
         None
@@ -148,6 +149,7 @@ pub fn test_coverage_percent(covered: f64, total: f64) -> Option<f64> {
 /// assert!(kill_rate < 40.0);
 /// assert_eq!(mutation_kill_rate_percent(1.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn mutation_kill_rate_percent(mutants_killed: f64, mutants_total: f64) -> Option<f64> {
     if mutants_total == 0.0 {
         None

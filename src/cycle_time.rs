@@ -90,6 +90,7 @@
 /// let total = cycle_time(2.0, 0.5, 1.5, 0.5, 0.5);
 /// assert_eq!(total, 5.0);
 /// ```
+#[must_use]
 pub fn cycle_time(coding: f64, pickup: f64, review: f64, test: f64, deploy: f64) -> f64 {
     coding + pickup + review + test + deploy
 }
@@ -120,6 +121,7 @@ pub fn cycle_time(coding: f64, pickup: f64, review: f64, test: f64, deploy: f64)
 /// assert!((review_share - 30.0).abs() < 1e-9);
 /// assert_eq!(stage_percent_of_cycle(1.5, 0.0), None);
 /// ```
+#[must_use]
 pub fn stage_percent_of_cycle(stage_duration: f64, total_cycle_time: f64) -> Option<f64> {
     if total_cycle_time == 0.0 {
         None

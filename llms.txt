@@ -1,0 +1,61 @@
+# software-engineering
+
+> A `std`-only, zero-external-dependency Rust crate of software-engineering
+> metrics: one module per topic (flow, DORA, DevEx, code quality, cost,
+> reliability, security, AI-assisted development, and metrics-program
+> maturity), each implementing the formulas and worked examples from one
+> chapter of the book *Software Engineering Metrics*. Functions are `f64`
+> (or a small `Copy` enum for category values), return `Option<f64>`
+> wherever a denominator could be zero, and never panic.
+
+## Docs
+
+- [README](README.md): install instructions, quickstart, module index by theme
+- [AGENTS](AGENTS.md): build/lint/test commands, architecture, conventions, how to add a module
+- [Spec index](spec/README.md): per-module formula and public-API contract
+- [llms.json](llms.json): the same module/function index as this file, machine-readable
+
+## Modules — flow metrics
+
+- [flow_framework](spec/flow_framework.md): flow velocity, flow distribution, flow time, flow load, Little's law, flow efficiency
+- [cycle_time](spec/cycle_time.md): the five-stage cycle-time breakdown (coding, pickup, review, test, deploy)
+- [queueing_theory](spec/queueing_theory.md): utilization and queue stability
+- [lean_value_stream_metrics](spec/lean_value_stream_metrics.md): percent complete and accurate, rolled throughput yield, takt time
+- [pull_request_metrics](spec/pull_request_metrics.md): time to first review, reviewer load concentration
+- [dora_metrics](spec/dora_metrics.md): deployment frequency, lead time for changes, change failure rate, recovery time
+
+## Modules — developer experience
+
+- [space_framework](spec/space_framework.md): the five SPACE dimensions and coverage checks
+- [developer_experience_metrics](spec/developer_experience_metrics.md): focus time, survey response rate
+
+## Modules — code and quality
+
+- [code_complexity](spec/code_complexity.md): McCabe cyclomatic complexity
+- [test_effectiveness](spec/test_effectiveness.md): test coverage, mutation kill rate
+- [code_churn](spec/code_churn.md): code churn, hotspot score
+- [technical_debt](spec/technical_debt.md): debt carrying cost
+
+## Modules — product and business
+
+- [escaped_defects](spec/escaped_defects.md): escaped defect rate, severity-weighted score
+- [feature_adoption](spec/feature_adoption.md): initial adoption, retained adoption
+- [unit_economics](spec/unit_economics.md): unit cost, cost-component split
+- [return_on_investment](spec/return_on_investment.md): ROI and ROI as a range
+
+## Modules — reliability, operations, and security
+
+- [error_budget](spec/error_budget.md): error budget and burn rate
+- [incident_metrics](spec/incident_metrics.md): MTTD, MTTA, MTTR, mean duration
+- [on_call_metrics](spec/on_call_metrics.md): on-call paging concentration
+- [vulnerability_management](spec/vulnerability_management.md): severity levels, vulnerability time-to-remediate
+
+## Modules — AI-assisted development and metrics programs
+
+- [ai_assisted_development](spec/ai_assisted_development.md): net cycle-time change, genuine vs false productivity gain
+- [maturity_model](spec/maturity_model.md): minimum and average maturity scoring across dimensions
+
+## Optional
+
+- [CITATION.cff](CITATION.cff): citation metadata
+- [LICENSE.md](LICENSE.md): MIT OR Apache-2.0 OR BSD-3-Clause OR GPL-2.0-only OR GPL-3.0-only

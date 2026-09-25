@@ -3,7 +3,7 @@
 //! Two practical measures from Part 3 of the book: **focus time**, the
 //! count and duration of uninterrupted two-hour-plus blocks per week
 //! (chapter 3.6's efficiency-and-flow dimension), and **survey response
-//! rate**, itself a trust signal for a DevEx survey programme, not merely a
+//! rate**, itself a trust signal for a `DevEx` survey programme, not merely a
 //! data-collection statistic (chapter 3.7).
 //!
 //! ## Formula
@@ -56,7 +56,7 @@
 //! ## Sources
 //!
 //! - Chapter 3.6, Efficiency and flow: deep work and interruptions.
-//! - Chapter 3.7, Developer experience surveys and DevEx metrics.
+//! - Chapter 3.7, Developer experience surveys and `DevEx` metrics.
 //!
 //! Topic doc: software-engineering-metrics/locales/en-001/chapters/03-06-efficiency-and-flow.md
 //! Topic doc: software-engineering-metrics/locales/en-001/chapters/03-07-developer-experience-surveys-and-devex-metrics.md
@@ -83,6 +83,7 @@
 /// assert!(is_focus_block(2.0));
 /// assert!(!is_focus_block(1.99));
 /// ```
+#[must_use]
 pub fn is_focus_block(duration_hours: f64) -> bool {
     duration_hours >= 2.0
 }
@@ -111,6 +112,7 @@ pub fn is_focus_block(duration_hours: f64) -> bool {
 /// assert_eq!(response_rate_percent(72.0, 100.0), Some(72.0));
 /// assert_eq!(response_rate_percent(1.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn response_rate_percent(responses_received: f64, invitations_sent: f64) -> Option<f64> {
     if invitations_sent == 0.0 {
         None

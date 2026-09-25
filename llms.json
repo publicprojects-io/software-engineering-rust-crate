@@ -1,0 +1,570 @@
+{
+  "name": "software-engineering",
+  "description": "Rust implementations of software-engineering delivery, quality, and reliability metrics models, structs, calculations, and examples — one module per topic, based on the book Software Engineering Metrics.",
+  "repository": "https://github.com/publicprojects-io/software-engineering-rust-crate/",
+  "license": "MIT OR Apache-2.0 OR BSD-3-Clause OR GPL-2.0-only OR GPL-3.0-only",
+  "language": "Rust",
+  "edition": "2024",
+  "dependencies": [],
+  "documentation": {
+    "readme": "README.md",
+    "agents": "AGENTS.md",
+    "spec_index": "spec/README.md"
+  },
+  "modules": [
+    {
+      "name": "ai_assisted_development",
+      "title": "Measuring AI-Assisted Software Development",
+      "description": "AI coding assistance can feel dramatically faster at the point of initial code generation while showing no net cycle-time improvement once the full pipeline, including review and correction, is measured — code that is faster to produce but slower to review, or that requires more rework, can offset or reverse the apparent gain. A genuine productivity gain shows faster cycle time *with* stable or improved quality; a false gain shows faster cycle time *with* degrading quality, exactly the trade this book warns against throughout, discovered here through the same paired-metric discipline applied elsewhere to DORA and to flow metrics.",
+      "chapter": "7.2",
+      "chapter_title": "Measuring AI-assisted software development",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/07-02-measuring-ai-assisted-software-development.md",
+      "spec": "spec/ai_assisted_development.md",
+      "source": "src/ai_assisted_development.rs",
+      "functions": [
+        {
+          "name": "net_cycle_time_change_percent",
+          "signature": "pub fn net_cycle_time_change_percent(cycle_time_before_hours: f64, cycle_time_after_hours: f64) -> Option<f64>",
+          "summary": "Net cycle-time change: the percentage change in full cycle time"
+        },
+        {
+          "name": "is_genuine_productivity_gain",
+          "signature": "pub fn is_genuine_productivity_gain( cycle_time_before_hours: f64, cycle_time_after_hours: f64, defect_rate_before_percent: f64, defect_rate_after_percent: f64, ) -> bool",
+          "summary": "Whether an observed cycle-time speedup is a genuine productivity gain"
+        }
+      ]
+    },
+    {
+      "name": "code_churn",
+      "title": "Code Churn and Hotspot Analysis",
+      "description": "**Code churn** measures how frequently a file or module changes over time — lines added, modified, and deleted across successive commits. On its own, churn is a fairly weak signal: some files change often because they are under active, healthy development, and some rarely change because they are stable, not neglected.",
+      "chapter": "4.3",
+      "chapter_title": "Code churn and hotspot analysis",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-03-code-churn-and-hotspot-analysis.md",
+      "spec": "spec/code_churn.md",
+      "source": "src/code_churn.rs",
+      "functions": [
+        {
+          "name": "code_churn",
+          "signature": "pub fn code_churn(lines_added: f64, lines_modified: f64, lines_deleted: f64) -> f64",
+          "summary": "Code churn: lines added + lines modified + lines deleted over a window."
+        },
+        {
+          "name": "hotspot_score",
+          "signature": "pub fn hotspot_score(churn: f64, complexity: f64) -> f64",
+          "summary": "Hotspot score: churn × complexity, the combined ranking signal."
+        }
+      ]
+    },
+    {
+      "name": "code_complexity",
+      "title": "Code Complexity Metrics",
+      "description": "**Cyclomatic complexity**, introduced by Thomas J. `McCabe` in 1976, counts the number of independent paths through a piece of code's control flow: each `if`, loop, and branch adds to the count.",
+      "chapter": "4.1",
+      "chapter_title": "Code complexity metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-01-code-complexity-metrics.md",
+      "spec": "spec/code_complexity.md",
+      "source": "src/code_complexity.rs",
+      "functions": [
+        {
+          "name": "cyclomatic_complexity",
+          "signature": "pub fn cyclomatic_complexity(edges: i64, nodes: i64) -> i64",
+          "summary": "`McCabe` cyclomatic complexity: independent paths through control flow."
+        }
+      ]
+    },
+    {
+      "name": "cycle_time",
+      "title": "Cycle Time and Its Components",
+      "description": "Cycle time is the internal breakdown of a change's flow time (see [`crate::flow_framework`]) into its constituent engineering stages: coding, pickup (waiting for a reviewer to start), review, test, and deploy. Where flow time gives a single end-to-end number, cycle time tells you where that time actually goes once work reaches engineering — the diagnostic layer underneath the summary number.",
+      "chapter": "2.6",
+      "chapter_title": "\"Cycle time and its components",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-06-cycle-time-and-its-components.md",
+      "spec": "spec/cycle_time.md",
+      "source": "src/cycle_time.rs",
+      "functions": [
+        {
+          "name": "cycle_time",
+          "signature": "pub fn cycle_time(coding: f64, pickup: f64, review: f64, test: f64, deploy: f64) -> f64",
+          "summary": "Cycle time: the sum of a change's five named engineering stages."
+        },
+        {
+          "name": "stage_percent_of_cycle",
+          "signature": "pub fn stage_percent_of_cycle(stage_duration: f64, total_cycle_time: f64) -> Option<f64>",
+          "summary": "A single stage's share of total cycle time, as a percentage."
+        }
+      ]
+    },
+    {
+      "name": "developer_experience_metrics",
+      "title": "Developer Experience Metrics",
+      "description": "Two practical measures from Part 3 of the book: **focus time**, the count and duration of uninterrupted two-hour-plus blocks per week (chapter 3.6's efficiency-and-flow dimension), and **survey response rate**, itself a trust signal for a `DevEx` survey programme, not merely a data-collection statistic (chapter 3.7).",
+      "chapter": "3.6",
+      "chapter_title": "Efficiency and flow: deep work and interruptions",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-06-efficiency-and-flow.md",
+      "spec": "spec/developer_experience_metrics.md",
+      "source": "src/developer_experience_metrics.rs",
+      "functions": [
+        {
+          "name": "is_focus_block",
+          "signature": "pub fn is_focus_block(duration_hours: f64) -> bool",
+          "summary": "Whether a calendar block qualifies as protected \"focus time\"."
+        },
+        {
+          "name": "response_rate_percent",
+          "signature": "pub fn response_rate_percent(responses_received: f64, invitations_sent: f64) -> Option<f64>",
+          "summary": "Survey response rate as a percentage: responses received / invitations"
+        }
+      ]
+    },
+    {
+      "name": "dora_metrics",
+      "title": "The DORA Metrics Framework",
+      "description": "The **DORA metrics** come from the DevOps Research and Assessment programme, later published as the book *Accelerate*, which surveyed tens of thousands of engineering professionals to find which delivery practices correlate with organizational performance. Four metrics, paired two and two: **deployment frequency** and **lead time for changes** measure speed; **change failure rate** and **failed deployment recovery time** measure stability.",
+      "chapter": "2.10",
+      "chapter_title": "The DORA metrics framework",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-10-the-dora-metrics-framework.md",
+      "spec": "spec/dora_metrics.md",
+      "source": "src/dora_metrics.rs",
+      "functions": [
+        {
+          "name": "change_failure_rate_percent",
+          "signature": "pub fn change_failure_rate_percent(failed_deployments: f64, total_deployments: f64) -> Option<f64>",
+          "summary": "Change failure rate: the percentage of deployments that caused a failure"
+        },
+        {
+          "name": "deployment_frequency_per_day",
+          "signature": "pub fn deployment_frequency_per_day(deployments: f64, days: f64) -> Option<f64>",
+          "summary": "Deployment frequency: how often a team successfully releases to"
+        },
+        {
+          "name": "lead_time_for_changes_hours",
+          "signature": "pub fn lead_time_for_changes_hours(first_commit_time_hours: f64, deploy_time_hours: f64) -> f64",
+          "summary": "Lead time for changes: the time from a code change's first commit to its"
+        },
+        {
+          "name": "failed_deployment_recovery_time_hours",
+          "signature": "pub fn failed_deployment_recovery_time_hours(detected_time_hours: f64, restored_time_hours: f64) -> f64",
+          "summary": "Failed deployment recovery time (often shortened to MTTR): how long it"
+        }
+      ]
+    },
+    {
+      "name": "error_budget",
+      "title": "SLIs, SLOs, and Error Budgets",
+      "description": "A **service level indicator (SLI)** measures something users genuinely experience, such as request success rate or latency. A **service level objective (SLO)** sets a target for that indicator.",
+      "chapter": "6.1",
+      "chapter_title": "SLIs, SLOs, and error budgets",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-01-slis-slos-and-error-budgets.md",
+      "spec": "spec/error_budget.md",
+      "source": "src/error_budget.rs",
+      "functions": [
+        {
+          "name": "error_budget_minutes",
+          "signature": "pub fn error_budget_minutes(slo_percent: f64, period_days: f64) -> f64",
+          "summary": "The allowed downtime, in minutes, implied by an availability SLO over a"
+        },
+        {
+          "name": "error_budget_burn_rate",
+          "signature": "pub fn error_budget_burn_rate(actual_downtime_minutes: f64, budget_minutes: f64) -> Option<f64>",
+          "summary": "How much of the error budget has been spent."
+        },
+        {
+          "name": "is_error_budget_exhausted",
+          "signature": "pub fn is_error_budget_exhausted(actual_downtime_minutes: f64, budget_minutes: f64) -> Option<bool>",
+          "summary": "Whether the error budget is exhausted: burn rate at or above `1.0`."
+        }
+      ]
+    },
+    {
+      "name": "escaped_defects",
+      "title": "Escaped Defect Rate and Quality Escapes",
+      "description": "An **escaped defect** is one that reaches production rather than being caught before release. The escaped defect rate compares how many defects escaped against how many were found in total (pre- and post-release combined), giving a direct read on how well internal quality practices are catching problems before customers do.",
+      "chapter": "5.1",
+      "chapter_title": "Escaped defect rate and quality escapes",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-01-escaped-defect-rate-and-quality-escapes.md",
+      "spec": "spec/escaped_defects.md",
+      "source": "src/escaped_defects.rs",
+      "functions": [
+        {
+          "name": "escaped_defect_rate_percent",
+          "signature": "pub fn escaped_defect_rate_percent(escaped_defects: f64, caught_defects: f64) -> Option<f64>",
+          "summary": "Escaped defect rate: the percentage of all found defects that escaped to"
+        },
+        {
+          "name": "severity_weighted_escaped_defect_score",
+          "signature": "pub fn severity_weighted_escaped_defect_score(critical: f64, major: f64, minor: f64) -> f64",
+          "summary": "A severity-weighted escaped-defect score, so a spike in minor issues"
+        }
+      ]
+    },
+    {
+      "name": "feature_adoption",
+      "title": "Feature Adoption and Usage Metrics",
+      "description": "**Feature adoption** measures whether the people a feature was built for actually use it, at what rate, and whether that use persists over time. Initial adoption and sustained adoption are different signals: a spike from curiosity or forced exposure is not the same as genuine, lasting value delivery.",
+      "chapter": "5.2",
+      "chapter_title": "Feature adoption and usage metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-02-feature-adoption-and-usage-metrics.md",
+      "spec": "spec/feature_adoption.md",
+      "source": "src/feature_adoption.rs",
+      "functions": [
+        {
+          "name": "initial_adoption_percent",
+          "signature": "pub fn initial_adoption_percent( tried_at_least_once: f64, target_audience: f64, ) -> Option<f64>",
+          "summary": "Initial adoption percentage: target audience who tried a feature at"
+        },
+        {
+          "name": "retained_adoption_percent",
+          "signature": "pub fn retained_adoption_percent( still_using_after_n_weeks: f64, initially_tried: f64, ) -> Option<f64>",
+          "summary": "Retained adoption percentage: initial triers still using the feature"
+        }
+      ]
+    },
+    {
+      "name": "flow_framework",
+      "title": "Flow Framework",
+      "description": "Mik Kersten's Flow Framework (from *Project to Product*) treats software delivery as a value stream and defines five core measurements: flow velocity, flow distribution, flow time, flow load, and flow efficiency. This module implements the arithmetic behind flow time, flow load, and the Little's law relationship that binds flow load to flow time.",
+      "chapter": null,
+      "chapter_title": null,
+      "source_chapter_path": "02-01-the-flow-framework.md,",
+      "spec": "spec/flow_framework.md",
+      "source": "src/flow_framework.rs",
+      "functions": [
+        {
+          "name": "flow_velocity",
+          "signature": "pub fn flow_velocity(items_completed: f64, period: f64) -> Option<f64>",
+          "summary": "Flow velocity: count of flow items completed per unit time."
+        },
+        {
+          "name": "flow_distribution_percent",
+          "signature": "pub fn flow_distribution_percent(items_of_type: f64, total_completed_items: f64) -> Option<f64>",
+          "summary": "Flow distribution: the percentage share of one flow item type among all"
+        },
+        {
+          "name": "flow_time",
+          "signature": "pub fn flow_time(entry: f64, delivery: f64) -> f64",
+          "summary": "Flow time: total elapsed time from a flow item entering the value stream"
+        },
+        {
+          "name": "flow_load_from_items",
+          "signature": "pub fn flow_load_from_items(active: u32, waiting: u32) -> u32",
+          "summary": "Flow load: total count of flow items currently active or waiting in the"
+        },
+        {
+          "name": "littles_law_wip",
+          "signature": "pub fn littles_law_wip(arrival_rate: f64, flow_time: f64) -> f64",
+          "summary": "Little's law, solved for flow load (work in process): `WIP = arrival rate"
+        },
+        {
+          "name": "littles_law_flow_time",
+          "signature": "pub fn littles_law_flow_time(wip: f64, arrival_rate: f64) -> Option<f64>",
+          "summary": "Little's law, solved for flow time: `flow time = WIP / arrival rate`."
+        },
+        {
+          "name": "flow_efficiency_percent",
+          "signature": "pub fn flow_efficiency_percent(active_time: f64, total_elapsed_time: f64) -> Option<f64>",
+          "summary": "Flow efficiency: the percentage of total elapsed time that was active"
+        }
+      ]
+    },
+    {
+      "name": "incident_metrics",
+      "title": "Incident Metrics",
+      "description": "Incident response time decomposes into distinct phases: **mean time to detect (MTTD)**, how long before the organization notices something is wrong; **mean time to acknowledge (MTTA)**, how long before someone takes ownership of responding; and **mean time to resolve or recover (MTTR)**, how long from ownership to genuine recovery. Reporting these separately, rather than only a single blended total, matters because each phase points to a different fix: slow detection points to a monitoring gap, slow acknowledgement points to an on-call process gap, and slow resolution points to a tooling or runbook gap.",
+      "chapter": "6.2",
+      "chapter_title": "Incident metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-02-incident-metrics.md",
+      "spec": "spec/incident_metrics.md",
+      "source": "src/incident_metrics.rs",
+      "functions": [
+        {
+          "name": "mean_time_to_detect_minutes",
+          "signature": "pub fn mean_time_to_detect_minutes(detection_durations_minutes: &[f64]) -> Option<f64>",
+          "summary": "Mean time to detect (MTTD): the mean, across incidents, of the duration"
+        },
+        {
+          "name": "mean_time_to_acknowledge_minutes",
+          "signature": "pub fn mean_time_to_acknowledge_minutes(acknowledgement_durations_minutes: &[f64]) -> Option<f64>",
+          "summary": "Mean time to acknowledge (MTTA): the mean, across incidents, of the"
+        },
+        {
+          "name": "mean_time_to_resolve_minutes",
+          "signature": "pub fn mean_time_to_resolve_minutes(resolution_durations_minutes: &[f64]) -> Option<f64>",
+          "summary": "Mean time to resolve or recover (MTTR): the mean, across incidents, of"
+        },
+        {
+          "name": "mean_incident_duration_minutes",
+          "signature": "pub fn mean_incident_duration_minutes(total_durations_minutes: &[f64]) -> Option<f64>",
+          "summary": "Mean total incident duration, from detection start to full resolution —"
+        }
+      ]
+    },
+    {
+      "name": "lean_value_stream_metrics",
+      "title": "Lean Value Stream Metrics",
+      "description": "Every flow metric in this crate descends from the five baseline measurements of classical Lean value stream mapping, developed at Toyota and generalized across manufacturing, operations, and service delivery long before software adopted them: lead time, process time, cycle time, percent complete and accurate (%C/A), and takt time. This module implements %C/A, rolled throughput yield, and takt time — the three that do not already have a direct home elsewhere in this crate.",
+      "chapter": null,
+      "chapter_title": null,
+      "source_chapter_path": "02-08-lean-value-stream-metrics.md",
+      "spec": "spec/lean_value_stream_metrics.md",
+      "source": "src/lean_value_stream_metrics.rs",
+      "functions": [
+        {
+          "name": "percent_complete_and_accurate",
+          "signature": "pub fn percent_complete_and_accurate(usable_without_rework: f64, total_units: f64) -> Option<f64>",
+          "summary": "Percent complete and accurate (%C/A): the share of a stage's output that"
+        },
+        {
+          "name": "rolled_throughput_yield",
+          "signature": "pub fn rolled_throughput_yield(stage_pca_fractions: &[f64]) -> f64",
+          "summary": "Rolled throughput yield: the product of every stage's %C/A fraction"
+        },
+        {
+          "name": "takt_time",
+          "signature": "pub fn takt_time(available_working_time: f64, customer_demand: f64) -> Option<f64>",
+          "summary": "Takt time: the maximum acceptable time to complete a unit to cleanly"
+        }
+      ]
+    },
+    {
+      "name": "maturity_model",
+      "title": "Maturity Model for Engineering Metrics Programs",
+      "description": "A metrics program's overall maturity is scored across five dimensions: **governance**, **instrumentation**, **outcome balance**, **cultural trust**, and **continuous improvement**, each independently on a 1–5 level scale (Level 1, Initiate, through Level 5, Orchestrate). The chapter's central recommendation is to take the *minimum* across dimensions as the honest overall score, resisting the temptation to average them into a more flattering composite.",
+      "chapter": "8.4",
+      "chapter_title": "Maturity model for engineering metrics programs",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/08-04-maturity-model-for-engineering-metrics-programs.md",
+      "spec": "spec/maturity_model.md",
+      "source": "src/maturity_model.rs",
+      "functions": [
+        {
+          "name": "MaturityDimension",
+          "signature": "enum MaturityDimension",
+          "summary": "One of the five maturity-model dimensions, in the chapter's own order."
+        },
+        {
+          "name": "minimum_maturity_level",
+          "signature": "pub fn minimum_maturity_level(scores: &[u8]) -> Option<u8>",
+          "summary": "The minimum score across a set of per-dimension maturity levels — the"
+        },
+        {
+          "name": "average_maturity_level",
+          "signature": "pub fn average_maturity_level(scores: &[u8]) -> Option<f64>",
+          "summary": "The arithmetic mean across a set of per-dimension maturity levels — the"
+        }
+      ]
+    },
+    {
+      "name": "on_call_metrics",
+      "title": "On-Call, Capacity, and Operational Load Metrics",
+      "description": "On-call load often concentrates on a small number of experienced people who can resolve incidents fastest — the same pattern this book warns against for code review load and knowledge concentration elsewhere, applied here to operational burden. A team-wide average page frequency can hide this concentration entirely; measuring the busiest individual's share, and how often any one person is on call relative to a sustainable limit, surfaces the burnout and bus-factor risk a simple average cannot.",
+      "chapter": "6.3",
+      "chapter_title": "On-call, capacity, and operational load metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-03-on-call-capacity-and-operational-load-metrics.md",
+      "spec": "spec/on_call_metrics.md",
+      "source": "src/on_call_metrics.rs",
+      "functions": [
+        {
+          "name": "paging_concentration_percent",
+          "signature": "pub fn paging_concentration_percent(busiest_engineer_pages: f64, total_pages: f64) -> Option<f64>",
+          "summary": "Paging concentration: how much of the team's total paging load fell on"
+        },
+        {
+          "name": "on_call_frequency_ratio",
+          "signature": "pub fn on_call_frequency_ratio(weeks_on_call: f64, total_weeks: f64) -> Option<f64>",
+          "summary": "On-call frequency ratio: the fraction of weeks an engineer spent on"
+        },
+        {
+          "name": "exceeds_sustainable_on_call_frequency",
+          "signature": "pub fn exceeds_sustainable_on_call_frequency( weeks_on_call: f64, total_weeks: f64, max_ratio: f64, ) -> Option<bool>",
+          "summary": "Whether an engineer's on-call frequency exceeds a given sustainable"
+        }
+      ]
+    },
+    {
+      "name": "pull_request_metrics",
+      "title": "Pull Request and Code Review Metrics",
+      "description": "Code review is usually the single largest wait-time contributor inside the cycle-time breakdown, and it is also the stage most directly under a team's own control to improve. This module covers two of that stage's core metrics: **time to first review**, the dominant wait-time lever, and **reviewer load concentration**, a way to surface an otherwise-invisible bottleneck and bus-factor risk in who does the reviewing.",
+      "chapter": "2.9",
+      "chapter_title": "Pull request and code review metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-09-pull-request-and-code-review-metrics.md",
+      "spec": "spec/pull_request_metrics.md",
+      "source": "src/pull_request_metrics.rs",
+      "functions": [
+        {
+          "name": "time_to_first_review",
+          "signature": "pub fn time_to_first_review(opened_at: f64, first_response_at: f64) -> f64",
+          "summary": "Time to first review: the interval from a pull request being opened to a"
+        },
+        {
+          "name": "reviewer_load_concentration_ratio",
+          "signature": "pub fn reviewer_load_concentration_ratio(reviews_per_reviewer: &[f64]) -> Option<f64>",
+          "summary": "Reviewer load concentration ratio: the busiest reviewer's review count"
+        }
+      ]
+    },
+    {
+      "name": "queueing_theory",
+      "title": "Queueing Theory",
+      "description": "Queueing theory is the mathematical study of waiting lines, and much of a delivery pipeline actually is a queue: a pull request waiting for a reviewer, a commit waiting for a CI runner, a ticket waiting to be picked up. Utilization — how busy a shared, capacity-constrained resource is, as a proportion of its available capacity — is the key quantity: wait time does not grow linearly with utilization, it grows sharply as utilization approaches full capacity.",
+      "chapter": "2.7",
+      "chapter_title": "\"Queueing theory",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-07-queueing-theory.md",
+      "spec": "spec/queueing_theory.md",
+      "source": "src/queueing_theory.rs",
+      "functions": [
+        {
+          "name": "utilization",
+          "signature": "pub fn utilization(arrival_rate: f64, service_rate: f64) -> Option<f64>",
+          "summary": "Utilization: arrival rate divided by service rate for a shared,"
+        },
+        {
+          "name": "is_queue_stable",
+          "signature": "pub fn is_queue_stable(utilization: f64) -> bool",
+          "summary": "Whether a queue is stable: utilization strictly less than 1.0."
+        }
+      ]
+    },
+    {
+      "name": "return_on_investment",
+      "title": "Return on Investment for Engineering Initiatives",
+      "description": "**Return on investment (ROI)** turns a delivery or reliability improvement into a financial case decision-makers outside engineering can weigh directly against competing investments. Build the cost side from full total cost of ownership, not just upfront development cost, and build the benefit side from documented, honest outcome evidence rather than an optimistic first-principles guess.",
+      "chapter": "5.5",
+      "chapter_title": "Return on investment for engineering initiatives",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-05-return-on-investment-for-engineering-initiatives.md",
+      "spec": "spec/return_on_investment.md",
+      "source": "src/return_on_investment.rs",
+      "functions": [
+        {
+          "name": "roi",
+          "signature": "pub fn roi(benefit: f64, cost: f64) -> Option<f64>",
+          "summary": "Return on investment: net benefit as a proportion of cost."
+        },
+        {
+          "name": "roi_range",
+          "signature": "pub fn roi_range(conservative_benefit: f64, optimistic_benefit: f64, cost: f64) -> Option<(f64, f64)>",
+          "summary": "ROI expressed as a conservative-to-optimistic range against the same"
+        }
+      ]
+    },
+    {
+      "name": "space_framework",
+      "title": "The SPACE Framework",
+      "description": "SPACE measures developer productivity across five dimensions instead of one: **Satisfaction and well-being**, **Performance**, **Activity**, **Communication and collaboration**, and **Efficiency and flow**. No single dimension is meant to stand alone; the framework's real contribution is the discipline of holding all five in view together, so a team cannot look productive on one axis while quietly damaging another.",
+      "chapter": "3.1",
+      "chapter_title": "The SPACE framework",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-01-the-space-framework.md",
+      "spec": "spec/space_framework.md",
+      "source": "src/space_framework.rs",
+      "functions": [
+        {
+          "name": "SpaceDimension",
+          "signature": "enum SpaceDimension",
+          "summary": "One of the five SPACE dimensions."
+        },
+        {
+          "name": "covers_all_dimensions",
+          "signature": "pub fn covers_all_dimensions(measured: &[SpaceDimension]) -> bool",
+          "summary": "Whether a measured set of dimensions covers all five SPACE dimensions."
+        },
+        {
+          "name": "missing_dimensions",
+          "signature": "pub fn missing_dimensions(measured: &[SpaceDimension]) -> Vec<SpaceDimension>",
+          "summary": "The SPACE dimensions not present in a measured set, in canonical order."
+        }
+      ]
+    },
+    {
+      "name": "technical_debt",
+      "title": "Technical Debt Measurement",
+      "description": "**Technical debt**, a metaphor coined by Ward Cunningham, describes the accumulated cost of past shortcuts — expedient decisions that shipped something sooner but left the codebase harder to change afterward, in the same way financial debt lets you spend now at the cost of interest later. Unmeasured debt loses the prioritization competition against feature work by default, not because it matters less, but because it has no visible advocate; quantifying it in terms decision-makers can weigh — cost to fix versus cost of carrying it — is what lets it compete fairly.",
+      "chapter": "4.5",
+      "chapter_title": "Technical debt measurement",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-05-technical-debt-measurement.md",
+      "spec": "spec/technical_debt.md",
+      "source": "src/technical_debt.rs",
+      "functions": [
+        {
+          "name": "debt_carrying_cost",
+          "signature": "pub fn debt_carrying_cost( velocity_tax_per_period: f64, elevated_defect_cost_per_period: f64, periods: f64, ) -> f64",
+          "summary": "Debt carrying cost: the ongoing cost of leaving a debt item unfixed."
+        }
+      ]
+    },
+    {
+      "name": "test_effectiveness",
+      "title": "Test Coverage and Test Effectiveness",
+      "description": "**Test coverage** measures the percentage of code executed by a test suite — line, branch, or path coverage. It is cheap to compute and easy to visualize as a single percentage, which also makes it one of the most frequently gamed metrics in software engineering: coverage measures whether code executed during a test run, not whether the test actually checked that the code behaved correctly.",
+      "chapter": "4.2",
+      "chapter_title": "Test coverage and test effectiveness",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-02-test-coverage-and-test-effectiveness.md",
+      "spec": "spec/test_effectiveness.md",
+      "source": "src/test_effectiveness.rs",
+      "functions": [
+        {
+          "name": "test_coverage_percent",
+          "signature": "pub fn test_coverage_percent(covered: f64, total: f64) -> Option<f64>",
+          "summary": "Test coverage as a percentage: covered lines (or branches) / total × 100."
+        },
+        {
+          "name": "mutation_kill_rate_percent",
+          "signature": "pub fn mutation_kill_rate_percent(mutants_killed: f64, mutants_total: f64) -> Option<f64>",
+          "summary": "Mutation kill rate as a percentage: mutants killed / mutants total × 100."
+        }
+      ]
+    },
+    {
+      "name": "unit_economics",
+      "title": "Cost and Unit Economics of Engineering",
+      "description": "Engineering cost has at least three distinct components with different drivers and different levers: **people cost** (salaries and benefits, largely fixed in the short term), **infrastructure cost** (cloud spend, largely variable with usage), and **tooling and licensing cost** (often fixed per-seat or per-usage-tier). Tracking them separately, rather than as one blended total, matters because a rising total driven by infrastructure scaling with genuine growth calls for a very different response than the same rise driven by unmanaged tooling sprawl.",
+      "chapter": "5.4",
+      "chapter_title": "Cost and unit economics of engineering",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-04-cost-and-unit-economics-of-engineering.md",
+      "spec": "spec/unit_economics.md",
+      "source": "src/unit_economics.rs",
+      "functions": [
+        {
+          "name": "total_engineering_cost",
+          "signature": "pub fn total_engineering_cost(people_cost: f64, infrastructure_cost: f64, tooling_cost: f64) -> f64",
+          "summary": "The sum of engineering's three distinct cost components."
+        },
+        {
+          "name": "unit_cost",
+          "signature": "pub fn unit_cost(total_cost: f64, units_delivered: f64) -> Option<f64>",
+          "summary": "Cost per genuine unit of value delivered, such as cost per customer"
+        }
+      ]
+    },
+    {
+      "name": "vulnerability_management",
+      "title": "Security and Vulnerability Management Metrics",
+      "description": "Security debt is measured the same way technical debt is measured (see [`crate::technical_debt`]): by severity and by how long it is carried. For every discovered vulnerability, the primary metric is time from discovery to genuine remediation — a deployed fix, not a closed ticket or an unmerged patch — tracked against an explicit target that varies by severity, commonly days for critical issues and weeks for lower-severity ones.",
+      "chapter": "6.4",
+      "chapter_title": "Security and vulnerability management metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-04-security-and-vulnerability-management-metrics.md",
+      "spec": "spec/vulnerability_management.md",
+      "source": "src/vulnerability_management.rs",
+      "functions": [
+        {
+          "name": "VulnerabilitySeverity",
+          "signature": "enum VulnerabilitySeverity",
+          "summary": "A vulnerability severity level, following a CVSS-like scale."
+        },
+        {
+          "name": "remediation_target_days",
+          "signature": "pub fn remediation_target_days(severity: VulnerabilitySeverity) -> f64",
+          "summary": "A common, documented remediation-time target for a severity level, in"
+        },
+        {
+          "name": "time_to_remediate_days",
+          "signature": "pub fn time_to_remediate_days(discovered_at_days: f64, remediated_at_days: f64) -> f64",
+          "summary": "Time from discovery to genuine remediation — a deployed fix, not a"
+        },
+        {
+          "name": "is_remediated_within_target",
+          "signature": "pub fn is_remediated_within_target(severity: VulnerabilitySeverity, actual_days_to_remediate: f64) -> bool",
+          "summary": "Whether an actual remediation time met the target for its severity."
+        }
+      ]
+    }
+  ]
+}

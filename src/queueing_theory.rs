@@ -92,6 +92,7 @@
 /// assert!((u - 0.9).abs() < 1e-9);
 /// assert_eq!(utilization(9.0, 0.0), None);
 /// ```
+#[must_use]
 pub fn utilization(arrival_rate: f64, service_rate: f64) -> Option<f64> {
     if service_rate == 0.0 {
         None
@@ -126,6 +127,7 @@ pub fn utilization(arrival_rate: f64, service_rate: f64) -> Option<f64> {
 /// assert!(!is_queue_stable(1.0));
 /// assert!(!is_queue_stable(1.1));
 /// ```
+#[must_use]
 pub fn is_queue_stable(utilization: f64) -> bool {
     utilization < 1.0
 }
