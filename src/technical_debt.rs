@@ -114,8 +114,8 @@
 /// ```rust
 /// use software_engineering::technical_debt::debt_carrying_cost;
 ///
-/// // £2,000/month velocity tax + £500/month elevated defect cost,
-/// // carried for 12 months = £30,000.
+/// // $2,000/month velocity tax + $500/month elevated defect cost,
+/// // carried for 12 months = $30,000.
 /// assert_eq!(debt_carrying_cost(2_000.0, 500.0, 12.0), 30_000.0);
 /// ```
 #[must_use]
@@ -163,12 +163,12 @@ pub fn debt_carrying_cost(
 /// use rusty_money::{Money, iso};
 /// use software_engineering::technical_debt::debt_carrying_cost_money;
 ///
-/// // £2,000/month velocity tax + £500/month elevated defect cost,
-/// // carried for 12 months = £30,000.
-/// let velocity_tax = Money::from_major(2_000, iso::GBP);
-/// let defect_cost = Money::from_major(500, iso::GBP);
+/// // $2,000/month velocity tax + $500/month elevated defect cost,
+/// // carried for 12 months = $30,000.
+/// let velocity_tax = Money::from_major(2_000, iso::USD);
+/// let defect_cost = Money::from_major(500, iso::USD);
 /// let cost = debt_carrying_cost_money(velocity_tax, defect_cost, 12).unwrap();
-/// assert_eq!(cost, Money::from_major(30_000, iso::GBP));
+/// assert_eq!(cost, Money::from_major(30_000, iso::USD));
 ///
 /// // Mismatched currencies are rejected rather than silently summed.
 /// let eur_defect_cost = Money::from_major(500, iso::EUR);
