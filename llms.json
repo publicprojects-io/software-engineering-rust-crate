@@ -9,7 +9,7 @@
     {
       "name": "rusty-money",
       "version": "0.5",
-      "purpose": "Currency-checked Money arithmetic, used only by the _money-suffixed functions in technical_debt, return_on_investment, and unit_economics."
+      "purpose": "Not used by any function signature in this crate. A few modules' docs (technical_debt, return_on_investment, unit_economics) show how to call rusty_money::Money's own add/sub/mul/div directly alongside this crate's plain-f64 functions."
     }
   ],
   "documentation": {
@@ -27,7 +27,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-04-activity-metrics-and-their-limits.md",
       "spec": "spec/activity_metrics.md",
       "source": "src/activity_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "is_commit_substitution_gaming_signal",
@@ -50,7 +50,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/07-02-measuring-ai-assisted-software-development.md",
       "spec": "spec/ai_assisted_development.md",
       "source": "src/ai_assisted_development.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "net_cycle_time_change_percent",
@@ -73,7 +73,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-03-code-churn-and-hotspot-analysis.md",
       "spec": "spec/code_churn.md",
       "source": "src/code_churn.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "code_churn",
@@ -96,7 +96,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-01-code-complexity-metrics.md",
       "spec": "spec/code_complexity.md",
       "source": "src/code_complexity.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "cyclomatic_complexity",
@@ -114,7 +114,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-03-customer-and-business-outcome-metrics.md",
       "spec": "spec/customer_and_business_outcome_metrics.md",
       "source": "src/customer_and_business_outcome_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "net_revenue_retention_percent",
@@ -137,7 +137,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-06-cycle-time-and-its-components.md",
       "spec": "spec/cycle_time.md",
       "source": "src/cycle_time.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "cycle_time",
@@ -160,7 +160,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-06-efficiency-and-flow.md",
       "spec": "spec/developer_experience_metrics.md",
       "source": "src/developer_experience_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "is_focus_block",
@@ -183,7 +183,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-06-documentation-and-knowledge-metrics.md",
       "spec": "spec/documentation_and_knowledge_metrics.md",
       "source": "src/documentation_and_knowledge_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "bus_factor",
@@ -206,7 +206,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-10-the-dora-metrics-framework.md",
       "spec": "spec/dora_metrics.md",
       "source": "src/dora_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "change_failure_rate_percent",
@@ -239,7 +239,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-01-slis-slos-and-error-budgets.md",
       "spec": "spec/error_budget.md",
       "source": "src/error_budget.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "error_budget_minutes",
@@ -267,7 +267,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-01-escaped-defect-rate-and-quality-escapes.md",
       "spec": "spec/escaped_defects.md",
       "source": "src/escaped_defects.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "escaped_defect_rate_percent",
@@ -290,7 +290,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-02-feature-adoption-and-usage-metrics.md",
       "spec": "spec/feature_adoption.md",
       "source": "src/feature_adoption.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "initial_adoption_percent",
@@ -313,7 +313,7 @@
       "source_chapter_path": "02-01-the-flow-framework.md,",
       "spec": "spec/flow_framework.md",
       "source": "src/flow_framework.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "flow_velocity",
@@ -361,7 +361,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-02-incident-metrics.md",
       "spec": "spec/incident_metrics.md",
       "source": "src/incident_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "mean_time_to_detect_minutes",
@@ -394,7 +394,7 @@
       "source_chapter_path": "02-08-lean-value-stream-metrics.md",
       "spec": "spec/lean_value_stream_metrics.md",
       "source": "src/lean_value_stream_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "percent_complete_and_accurate",
@@ -422,7 +422,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/08-04-maturity-model-for-engineering-metrics-programs.md",
       "spec": "spec/maturity_model.md",
       "source": "src/maturity_model.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "MaturityDimension",
@@ -450,7 +450,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-03-on-call-capacity-and-operational-load-metrics.md",
       "spec": "spec/on_call_metrics.md",
       "source": "src/on_call_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "paging_concentration_percent",
@@ -478,7 +478,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-09-pull-request-and-code-review-metrics.md",
       "spec": "spec/pull_request_metrics.md",
       "source": "src/pull_request_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "time_to_first_review",
@@ -501,7 +501,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-07-queueing-theory.md",
       "spec": "spec/queueing_theory.md",
       "source": "src/queueing_theory.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "utilization",
@@ -524,7 +524,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-05-return-on-investment-for-engineering-initiatives.md",
       "spec": "spec/return_on_investment.md",
       "source": "src/return_on_investment.rs",
-      "uses_money": true,
+      "shows_rusty_money_usage_in_docs": true,
       "functions": [
         {
           "name": "roi",
@@ -535,16 +535,6 @@
           "name": "roi_range",
           "signature": "pub fn roi_range(conservative_benefit: f64, optimistic_benefit: f64, cost: f64) -> Option<(f64, f64)>",
           "summary": "ROI expressed as a conservative-to-optimistic range against the same"
-        },
-        {
-          "name": "net_benefit_money",
-          "signature": "pub fn net_benefit_money<'a, T: rusty_money::FormattableCurrency>( benefit: rusty_money::Money<'a, T>, cost: rusty_money::Money<'a, T>, ) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>",
-          "summary": "Net benefit (`benefit − cost`) computed over [`rusty_money::Money`]"
-        },
-        {
-          "name": "roi_money",
-          "signature": "pub fn roi_money<'a, T: rusty_money::FormattableCurrency>( benefit: rusty_money::Money<'a, T>, cost: rusty_money::Money<'a, T>, ) -> Result<f64, rusty_money::MoneyError>",
-          "summary": "Return on investment computed over [`rusty_money::Money`] instead of"
         }
       ]
     },
@@ -557,7 +547,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-02-satisfaction-and-well-being-metrics.md",
       "spec": "spec/satisfaction_metrics.md",
       "source": "src/satisfaction_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "satisfaction_net_score",
@@ -580,7 +570,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-01-the-space-framework.md",
       "spec": "spec/space_framework.md",
       "source": "src/space_framework.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "SpaceDimension",
@@ -608,7 +598,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-04-static-analysis-and-code-smell-metrics.md",
       "spec": "spec/static_analysis_metrics.md",
       "source": "src/static_analysis_metrics.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "FindingSeverity",
@@ -641,17 +631,12 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-05-technical-debt-measurement.md",
       "spec": "spec/technical_debt.md",
       "source": "src/technical_debt.rs",
-      "uses_money": true,
+      "shows_rusty_money_usage_in_docs": true,
       "functions": [
         {
           "name": "debt_carrying_cost",
           "signature": "pub fn debt_carrying_cost( velocity_tax_per_period: f64, elevated_defect_cost_per_period: f64, periods: f64, ) -> f64",
           "summary": "Debt carrying cost: the ongoing cost of leaving a debt item unfixed."
-        },
-        {
-          "name": "debt_carrying_cost_money",
-          "signature": "pub fn debt_carrying_cost_money<'a, T: rusty_money::FormattableCurrency>( velocity_tax_per_period: rusty_money::Money<'a, T>, elevated_defect_cost_per_period: rusty_money::Money<'a, T>, periods: u32, ) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>",
-          "summary": "Debt carrying cost, computed over [`rusty_money::Money`] instead of"
         }
       ]
     },
@@ -664,7 +649,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-02-test-coverage-and-test-effectiveness.md",
       "spec": "spec/test_effectiveness.md",
       "source": "src/test_effectiveness.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "test_coverage_percent",
@@ -687,7 +672,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-04-cost-and-unit-economics-of-engineering.md",
       "spec": "spec/unit_economics.md",
       "source": "src/unit_economics.rs",
-      "uses_money": true,
+      "shows_rusty_money_usage_in_docs": true,
       "functions": [
         {
           "name": "total_engineering_cost",
@@ -698,16 +683,6 @@
           "name": "unit_cost",
           "signature": "pub fn unit_cost(total_cost: f64, units_delivered: f64) -> Option<f64>",
           "summary": "Cost per genuine unit of value delivered, such as cost per customer"
-        },
-        {
-          "name": "total_engineering_cost_money",
-          "signature": "pub fn total_engineering_cost_money<'a, T: rusty_money::FormattableCurrency>( people_cost: rusty_money::Money<'a, T>, infrastructure_cost: rusty_money::Money<'a, T>, tooling_cost: rusty_money::Money<'a, T>, ) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>",
-          "summary": "The sum of engineering's three distinct cost components, computed over"
-        },
-        {
-          "name": "unit_cost_money",
-          "signature": "pub fn unit_cost_money<T: rusty_money::FormattableCurrency>( total_cost: rusty_money::Money<'_, T>, units_delivered: u32, ) -> Result<rusty_money::Money<'_, T>, rusty_money::MoneyError>",
-          "summary": "Cost per genuine unit of value delivered, computed over"
         }
       ]
     },
@@ -720,7 +695,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-04-security-and-vulnerability-management-metrics.md",
       "spec": "spec/vulnerability_management.md",
       "source": "src/vulnerability_management.rs",
-      "uses_money": false,
+      "shows_rusty_money_usage_in_docs": false,
       "functions": [
         {
           "name": "VulnerabilitySeverity",

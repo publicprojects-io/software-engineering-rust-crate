@@ -11,9 +11,10 @@ development, and metrics-program maturity), each implementing the
 formulas and worked examples from one chapter of the sibling book
 *Software Engineering Metrics* (see [`spec/`](spec/) and "Adding a new
 module" below). Its one real dependency is
-[`rusty-money`](https://crates.io/crates/rusty-money), used only by the
-`Money`-typed variants of a handful of financial functions (see "Money
-convention" below) — every other module has no dependencies at all.
+[`rusty-money`](https://crates.io/crates/rusty-money), which a handful of
+financial modules' docs show how to use directly alongside this crate's
+own plain-`f64` functions (see "Money convention" below) — no module's
+public API takes or returns a `rusty_money` type itself.
 
 ## Commands
 
@@ -43,8 +44,9 @@ exercise.
   denominator could be zero, returning `None` in that case rather than
   dividing by zero or panicking. Functions that can't have an undefined
   case (e.g. a plain subtraction like `flow_time`) return a bare value.
-  The `Money`-typed functions are the one exception — see "Money
-  convention" below.
+  This applies to every function in every module — none take or return a
+  `rusty_money` type; see "Money convention" below for how those two
+  worlds combine in a caller's own code instead.
 - No module depends on I/O or time — all inputs (durations, counts,
   percentages) are passed in by the caller as plain numbers; the crate
   has no concept of "now" or "the network."
@@ -117,42 +119,39 @@ In practice this means:
 
 ## Money convention
 
-`technical_debt`, `return_on_investment`, and `unit_economics` each have
-an `_money` twin of their plain-`f64` function(s)
-(`debt_carrying_cost_money`, `roi_money`/`net_benefit_money`,
-`total_engineering_cost_money`/`unit_cost_money`), built on
-[`rusty_money::Money<'_, T>`](https://docs.rs/rusty-money) instead of
-`f64`. These are additive — the plain `f64` functions are unchanged and
-remain the default choice — and follow a different error convention on
-purpose:
+`technical_debt`, `return_on_investment`, and `unit_economics` each have a
+"Money" section in their module doc showing how to combine that module's
+plain-`f64` function(s) with
+[`rusty_money::Money`](https://docs.rs/rusty-money) directly — this crate
+does **not** provide `_money`-suffixed wrapper functions around
+`rusty_money`'s own API. Earlier drafts of this crate did add such
+wrappers (`debt_carrying_cost_money`, `roi_money`, `unit_cost_money`, and
+similar); they were removed because they added no logic beyond one or two
+chained `rusty_money` method calls the caller can write just as easily
+themselves. When a financial module needs a "Money" section, follow the
+same pattern instead of reintroducing a wrapper:
 
-- Return `Result<Money<'_, T>, MoneyError>` (or `Result<f64, MoneyError>`
-  for a Money-in-ratio-out function like `roi_money`), never `Option`.
-  `rusty_money`'s own arithmetic (`.add`, `.sub`, `.mul`, `.div`) already
-  returns `Result`, and a currency mismatch or overflow is a distinct
-  failure mode from "the denominator happened to be zero" — collapsing
-  both into `None` would hide which one occurred.
-- Propagate `rusty_money`'s own errors with `?` rather than re-wrapping
-  them; only construct a `MoneyError` directly when the crate's own logic
-  needs to signal a case `rusty_money` wouldn't otherwise catch (e.g.
-  `roi_money` returns `MoneyError::DivisionByZero` explicitly once it has
-  already computed the net benefit, since dividing a `Money` by a `Money`
-  isn't a single primitive operation on the type).
-- Every `Money`-typed function needs a `# Errors` doc section (clippy's
-  `missing_errors_doc`, part of the pedantic group, enforces this) and
-  `#[must_use = "..."]` with a short reason, since these are `Result`s
-  that must be checked, not `Option`s.
-- Take integer scalars (`u32`, not `f64`) wherever `rusty_money::Money`
-  is multiplied or divided by a plain count (e.g. `periods: u32` in
-  `debt_carrying_cost_money`) — `Money::mul`/`Money::div` require
-  `N: Into<Decimal>`, which plain `f64` does not implement (deliberately,
-  since an `f64`→`Decimal` conversion can be lossy); an integer type is
-  both correct here and the only type that compiles.
+- Write a runnable doctest in the module doc's `## Money` section that
+  imports `rusty_money::{Money, iso}`, builds `Money` values with
+  `Money::from_major`/`Money::from_minor`, and calls `rusty_money`'s own
+  `.add`/`.sub`/`.mul`/`.div` directly — these already return `Result`, so
+  a currency mismatch or overflow surfaces as an `Err` with no adapter
+  needed.
+- Where the module's plain-`f64` function needs a plain number derived
+  from `Money` (e.g. `roi`'s `benefit`/`cost` arguments), call
+  [`rusty_money::Money::to_f64_lossy`](https://docs.rs/rusty-money) to
+  convert, and show that conversion in the same doctest — don't add a
+  crate function whose only job is that conversion plus a delegate call.
+- `rusty_money::Money::mul`/`Money::div` take `N: Into<Decimal>`, which
+  plain `f64` does not implement (deliberately, since an `f64`→`Decimal`
+  conversion can be lossy) — use an integer literal (`.mul(12)`, not
+  `.mul(12.0)`) in these examples.
 - When sorting or comparing `f64` inside a function that could otherwise
   panic on `NaN` (e.g. `partial_cmp().unwrap()`), prefer `f64::total_cmp`
   instead — it never panics, so there's nothing to document, and it
   avoids `clippy::missing_panics_doc` (part of the pedantic group)
-  entirely rather than working around it.
+  entirely rather than working around it. This isn't Money-specific, but
+  came up while working on the Money examples above.
 
 ## Adding a new module
 

@@ -14,12 +14,12 @@ corresponding spec file from the updated `src/*.rs` rather than editing
 `spec/*.md` by hand and letting it drift.
 
 A few modules (`technical_debt`, `return_on_investment`, `unit_economics`)
-additionally expose a currency-checked variant of one or more functions,
-built on [`rusty-money`](https://crates.io/crates/rusty-money)'s `Money`
-type instead of plain `f64` — see each one's own "Money" section below.
-These return `Result<_, rusty_money::MoneyError>` rather than `Option`,
-since currency mismatch and overflow are real failure modes plain `f64`
-doesn't have.
+additionally show, in their own "Money" section below, how to combine
+their plain-`f64` functions with
+[`rusty-money`](https://crates.io/crates/rusty-money)'s `Money` type
+directly — calling `Money`'s own `add`/`sub`/`mul`/`div` inline, not
+through a wrapper function this crate provides. No function's signature
+in this crate takes or returns a `rusty_money` type.
 
 ## Flow metrics
 

@@ -16,11 +16,27 @@ periods                = number of periods the item is left unfixed
 
 ## Money
 
-[`debt_carrying_cost`] takes plain `f64` amounts and leaves currency
-bookkeeping to the caller. [`debt_carrying_cost_money`] does the same
-calculation over [`rusty_money::Money`] instead, so a currency mismatch
-between the two per-period costs (mixing USD and EUR, say) is caught as
-an error rather than silently summed as if they were the same unit.
+[`debt_carrying_cost`] takes plain `f64` amounts. For currency-checked
+accounting, use [`rusty_money::Money`] directly rather than through a
+wrapper this crate provides — its own `add`/`mul` already return
+`Result`, rejecting a currency mismatch (a USD velocity tax against a
+EUR defect cost, say) instead of silently summing incompatible amounts,
+so this formula needs no adapter to use it that way:
+
+```rust
+use rusty_money::{Money, iso};
+
+// $2,000/month velocity tax + $500/month elevated defect cost,
+// carried for 12 months = $30,000.
+let velocity_tax = Money::from_major(2_000, iso::USD);
+let defect_cost = Money::from_major(500, iso::USD);
+let cost = velocity_tax.add(defect_cost).unwrap().mul(12).unwrap();
+assert_eq!(cost, Money::from_major(30_000, iso::USD));
+
+// Mismatched currencies are rejected rather than silently summed.
+let eur_defect_cost = Money::from_major(500, iso::EUR);
+assert!(velocity_tax.add(eur_defect_cost).is_err());
+```
 
 ## Public API
 
@@ -35,18 +51,6 @@ pub fn debt_carrying_cost(
 ```
 
 Debt carrying cost: the ongoing cost of leaving a debt item unfixed.
-
-### `debt_carrying_cost_money`
-
-```rust
-pub fn debt_carrying_cost_money<'a, T: rusty_money::FormattableCurrency>(
-    velocity_tax_per_period: rusty_money::Money<'a, T>,
-    elevated_defect_cost_per_period: rusty_money::Money<'a, T>,
-    periods: u32,
-) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>
-```
-
-Debt carrying cost, computed over [`rusty_money::Money`] instead of
 
 ## Sources
 

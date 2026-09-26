@@ -13,11 +13,33 @@ ROI range    = (roi(conservative benefit, cost), roi(optimistic benefit, cost))
 
 ## Money
 
-[`roi`] and [`roi_range`] take plain `f64` amounts. [`roi_money`] and
-[`net_benefit_money`] do the equivalent calculation over
-[`rusty_money::Money`], so a benefit and cost quoted in different
-currencies (USD benefit against a EUR cost, say) are rejected as an
-error instead of silently treated as the same unit.
+[`roi`] and [`roi_range`] take plain `f64` amounts. For currency-checked
+accounting, use [`rusty_money::Money`] directly rather than through a
+wrapper this crate provides — its own `sub` already returns `Result`,
+rejecting a benefit and cost quoted in different currencies (USD
+against EUR, say) instead of silently treating them as the same unit,
+and [`rusty_money::Money::to_f64_lossy`] converts the net benefit and
+cost into the same plain proportion [`roi`] returns:
+
+```rust
+use rusty_money::{Money, iso};
+use software_engineering::return_on_investment::roi;
+
+let benefit = Money::from_major(300_000, iso::USD);
+let cost = Money::from_major(100_000, iso::USD);
+
+// rusty_money's own sub() catches a currency mismatch before it ever
+// reaches roi(), which only ever sees plain, same-unit f64 amounts.
+let net_benefit = benefit.sub(cost).unwrap();
+assert_eq!(net_benefit, Money::from_major(200_000, iso::USD));
+
+let r = roi(benefit.to_f64_lossy(), cost.to_f64_lossy()).unwrap();
+assert!((r - 2.0).abs() < 1e-9);
+
+// Mismatched currencies are rejected rather than silently subtracted.
+let eur_cost = Money::from_major(100_000, iso::EUR);
+assert!(benefit.sub(eur_cost).is_err());
+```
 
 ## Public API
 
@@ -36,28 +58,6 @@ pub fn roi_range(conservative_benefit: f64, optimistic_benefit: f64, cost: f64) 
 ```
 
 ROI expressed as a conservative-to-optimistic range against the same
-
-### `net_benefit_money`
-
-```rust
-pub fn net_benefit_money<'a, T: rusty_money::FormattableCurrency>(
-    benefit: rusty_money::Money<'a, T>,
-    cost: rusty_money::Money<'a, T>,
-) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>
-```
-
-Net benefit (`benefit − cost`) computed over [`rusty_money::Money`]
-
-### `roi_money`
-
-```rust
-pub fn roi_money<'a, T: rusty_money::FormattableCurrency>(
-    benefit: rusty_money::Money<'a, T>,
-    cost: rusty_money::Money<'a, T>,
-) -> Result<f64, rusty_money::MoneyError>
-```
-
-Return on investment computed over [`rusty_money::Money`] instead of
 
 ## Sources
 

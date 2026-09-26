@@ -7,15 +7,15 @@
 //! documents them with runnable examples, and reproduces the chapter's
 //! worked example (where the chapter gives one) in its unit tests.
 //!
-//! Dependencies are minimal: [`rusty_money`] provides currency-checked
-//! `Money` arithmetic for a handful of financial functions (see each
-//! module's own "Money" section); every other module has none. All
-//! quantities are `f64` (or a small enum where the source material calls
-//! for a category, such as a SPACE dimension or a vulnerability severity),
-//! and functions return `Option<f64>` wherever a denominator could be zero
-//! — except the `Money`-typed functions, which return
-//! `Result<_, rusty_money::MoneyError>` instead, since currency mismatches
-//! and overflow are real failure modes plain `f64` doesn't have.
+//! Dependencies are minimal: [`rusty_money`] is available for
+//! currency-checked `Money` arithmetic (see each financial module's own
+//! "Money" section for a direct-usage example); every module's own
+//! functions still take and return plain `f64`, with no `rusty_money`
+//! wrapper of any kind — combine the two directly in your own code rather
+//! than through an adapter this crate provides. All quantities are `f64`
+//! (or a small enum where the source material calls for a category, such
+//! as a SPACE dimension or a vulnerability severity), and functions return
+//! `Option<f64>` wherever a denominator could be zero.
 //!
 //! ## Quickstart
 //!

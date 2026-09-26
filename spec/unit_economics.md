@@ -14,10 +14,27 @@ Unit cost                = total cost / units delivered
 ## Money
 
 [`total_engineering_cost`] and [`unit_cost`] take plain `f64` amounts.
-[`total_engineering_cost_money`] and [`unit_cost_money`] do the
-equivalent calculation over [`rusty_money::Money`], so summing cost
-components quoted in different currencies is rejected as an error
-instead of silently treated as the same unit.
+For currency-checked accounting, use [`rusty_money::Money`] directly
+rather than through a wrapper this crate provides — its own `add`/`div`
+already return `Result`, rejecting cost components quoted in different
+currencies instead of silently treating them as the same unit:
+
+```rust
+use rusty_money::{Money, iso};
+use software_engineering::unit_economics::unit_cost;
+
+let people = Money::from_major(500_000, iso::USD);
+let infrastructure = Money::from_major(120_000, iso::USD);
+let tooling = Money::from_major(30_000, iso::USD);
+let total = people.add(infrastructure).unwrap().add(tooling).unwrap();
+assert_eq!(total, Money::from_major(650_000, iso::USD));
+
+let cost_per_customer = unit_cost(total.to_f64_lossy(), 10_000.0).unwrap();
+assert!((cost_per_customer - 65.0).abs() < 1e-9);
+
+// Dividing by zero units is rejected rather than producing infinity.
+assert!(total.div(0).is_err());
+```
 
 ## Public API
 
@@ -36,29 +53,6 @@ pub fn unit_cost(total_cost: f64, units_delivered: f64) -> Option<f64>
 ```
 
 Cost per genuine unit of value delivered, such as cost per customer
-
-### `total_engineering_cost_money`
-
-```rust
-pub fn total_engineering_cost_money<'a, T: rusty_money::FormattableCurrency>(
-    people_cost: rusty_money::Money<'a, T>,
-    infrastructure_cost: rusty_money::Money<'a, T>,
-    tooling_cost: rusty_money::Money<'a, T>,
-) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>
-```
-
-The sum of engineering's three distinct cost components, computed over
-
-### `unit_cost_money`
-
-```rust
-pub fn unit_cost_money<T: rusty_money::FormattableCurrency>(
-    total_cost: rusty_money::Money<'_, T>,
-    units_delivered: u32,
-) -> Result<rusty_money::Money<'_, T>, rusty_money::MoneyError>
-```
-
-Cost per genuine unit of value delivered, computed over
 
 ## Sources
 
