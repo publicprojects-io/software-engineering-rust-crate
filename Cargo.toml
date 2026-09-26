@@ -1,6 +1,6 @@
 [package]
 name = "software-engineering"
-version = "0.4.0"
+version = "1.0.0"
 edition = "2024"
 authors = ["Joel Parker Henderson <joel@joelparkerhenderson.com>"]
 description = "Software engineering metrics models, structs, calculations, and examples."

@@ -23,7 +23,7 @@ Add the dependency to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-software-engineering = "0.4"
+software-engineering = "1.0"
 ```
 
 ## Quickstart
