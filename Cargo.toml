@@ -1,6 +1,6 @@
 [package]
 name = "software-engineering"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 authors = ["Joel Parker Henderson <joel@joelparkerhenderson.com>"]
 description = "Software engineering metrics models, structs, calculations, and examples."
@@ -12,3 +12,4 @@ categories = ["science", "data-structures", "development-tools"]
 include = ["src/**/*", "LICENSE.md", "README.md"]
 
 [dependencies]
+rusty-money = "0.5"

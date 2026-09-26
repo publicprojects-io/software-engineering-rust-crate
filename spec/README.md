@@ -13,6 +13,14 @@ formula, function signatures, or sources change, regenerate the
 corresponding spec file from the updated `src/*.rs` rather than editing
 `spec/*.md` by hand and letting it drift.
 
+A few modules (`technical_debt`, `return_on_investment`, `unit_economics`)
+additionally expose a currency-checked variant of one or more functions,
+built on [`rusty-money`](https://crates.io/crates/rusty-money)'s `Money`
+type instead of plain `f64` — see each one's own "Money" section below.
+These return `Result<_, rusty_money::MoneyError>` rather than `Option`,
+since currency mismatch and overflow are real failure modes plain `f64`
+doesn't have.
+
 ## Flow metrics
 
 - [`flow_framework`](flow_framework.md) — flow velocity, flow distribution, flow time, flow load, Little's law, flow efficiency
@@ -26,20 +34,25 @@ corresponding spec file from the updated `src/*.rs` rather than editing
 
 - [`space_framework`](space_framework.md) — the five SPACE dimensions and coverage checks
 - [`developer_experience_metrics`](developer_experience_metrics.md) — focus time, survey response rate
+- [`satisfaction_metrics`](satisfaction_metrics.md) — eNPS-style satisfaction score, satisfaction trend
+- [`activity_metrics`](activity_metrics.md) — commit-splitting gaming signal, activity rate as context only
 
 ## Code and quality
 
 - [`code_complexity`](code_complexity.md) — McCabe cyclomatic complexity
 - [`test_effectiveness`](test_effectiveness.md) — test coverage, mutation kill rate
 - [`code_churn`](code_churn.md) — code churn, hotspot score
-- [`technical_debt`](technical_debt.md) — debt carrying cost
+- [`technical_debt`](technical_debt.md) — debt carrying cost (plain and Money-typed)
+- [`static_analysis_metrics`](static_analysis_metrics.md) — findings per KLOC, severity-weighted finding score
+- [`documentation_and_knowledge_metrics`](documentation_and_knowledge_metrics.md) — bus factor, documentation coverage
 
 ## Product and business
 
 - [`escaped_defects`](escaped_defects.md) — escaped defect rate, severity-weighted score
 - [`feature_adoption`](feature_adoption.md) — initial adoption, retained adoption
-- [`unit_economics`](unit_economics.md) — unit cost, cost-component split
-- [`return_on_investment`](return_on_investment.md) — ROI and ROI as a range
+- [`unit_economics`](unit_economics.md) — unit cost, cost-component split (plain and Money-typed)
+- [`return_on_investment`](return_on_investment.md) — ROI and ROI as a range (plain and Money-typed)
+- [`customer_and_business_outcome_metrics`](customer_and_business_outcome_metrics.md) — net revenue retention, honestly-scoped outcome claims
 
 ## Reliability, operations, and security
 

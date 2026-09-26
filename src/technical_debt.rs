@@ -54,6 +54,14 @@
 //! assert_eq!(longer, cost * 2.0);
 //! ```
 //!
+//! ## Money
+//!
+//! [`debt_carrying_cost`] takes plain `f64` amounts and leaves currency
+//! bookkeeping to the caller. [`debt_carrying_cost_money`] does the same
+//! calculation over [`rusty_money::Money`] instead, so a currency mismatch
+//! between the two per-period costs (mixing USD and EUR, say) is caught as
+//! an error rather than silently summed as if they were the same unit.
+//!
 //! ## Pitfalls
 //!
 //! - **No visible, tracked debt backlog** — debt loses the prioritization
@@ -117,6 +125,64 @@ pub fn debt_carrying_cost(
     periods: f64,
 ) -> f64 {
     (velocity_tax_per_period + elevated_defect_cost_per_period) * periods
+}
+
+/// Debt carrying cost, computed over [`rusty_money::Money`] instead of
+/// plain `f64`.
+///
+/// `(velocity_tax_per_period.add(elevated_defect_cost_per_period)).mul(periods)`.
+/// Unlike [`debt_carrying_cost`], this rejects mismatched currencies
+/// (e.g. a USD velocity tax against a EUR defect cost) instead of silently
+/// summing incompatible amounts, since [`rusty_money::Money`] arithmetic
+/// is currency-checked.
+///
+/// # Arguments
+///
+/// * `velocity_tax_per_period` — extra cost per period from related work
+///   going slower while the item is unfixed.
+/// * `elevated_defect_cost_per_period` — extra expected defect cost per
+///   period attributable to carrying the item, in the same currency.
+/// * `periods` — number of periods (e.g. months) the item is carried
+///   unfixed.
+///
+/// # Returns
+///
+/// The total carrying cost over `periods`, in the same currency as the two
+/// per-period inputs.
+///
+/// # Errors
+///
+/// Returns [`rusty_money::MoneyError::CurrencyMismatch`] if the two
+/// per-period costs are in different currencies, or
+/// [`rusty_money::MoneyError::Overflow`] if the sum or multiplication
+/// overflows.
+///
+/// # Examples
+///
+/// ```rust
+/// use rusty_money::{Money, iso};
+/// use software_engineering::technical_debt::debt_carrying_cost_money;
+///
+/// // £2,000/month velocity tax + £500/month elevated defect cost,
+/// // carried for 12 months = £30,000.
+/// let velocity_tax = Money::from_major(2_000, iso::GBP);
+/// let defect_cost = Money::from_major(500, iso::GBP);
+/// let cost = debt_carrying_cost_money(velocity_tax, defect_cost, 12).unwrap();
+/// assert_eq!(cost, Money::from_major(30_000, iso::GBP));
+///
+/// // Mismatched currencies are rejected rather than silently summed.
+/// let eur_defect_cost = Money::from_major(500, iso::EUR);
+/// assert!(debt_carrying_cost_money(velocity_tax, eur_defect_cost, 12).is_err());
+/// ```
+#[must_use = "this returns a Result and does not panic on a currency mismatch"]
+pub fn debt_carrying_cost_money<'a, T: rusty_money::FormattableCurrency>(
+    velocity_tax_per_period: rusty_money::Money<'a, T>,
+    elevated_defect_cost_per_period: rusty_money::Money<'a, T>,
+    periods: u32,
+) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError> {
+    velocity_tax_per_period
+        .add(elevated_defect_cost_per_period)?
+        .mul(periods)
 }
 
 #[cfg(test)]

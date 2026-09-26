@@ -4,13 +4,16 @@ Guidance for AI coding agents (and humans) working in this repository.
 
 ## What this crate is
 
-`software-engineering` is a `std`-only, zero-external-dependency Rust
-library of software-engineering metrics: one module per topic (flow,
+`software-engineering` is a `std`-only Rust library, with minimal
+dependencies, of software-engineering metrics: one module per topic (flow,
 DORA, DevEx, code quality, cost, reliability, security, AI-assisted
 development, and metrics-program maturity), each implementing the
 formulas and worked examples from one chapter of the sibling book
 *Software Engineering Metrics* (see [`spec/`](spec/) and "Adding a new
-module" below).
+module" below). Its one real dependency is
+[`rusty-money`](https://crates.io/crates/rusty-money), used only by the
+`Money`-typed variants of a handful of financial functions (see "Money
+convention" below) — every other module has no dependencies at all.
 
 ## Commands
 
@@ -40,9 +43,11 @@ exercise.
   denominator could be zero, returning `None` in that case rather than
   dividing by zero or panicking. Functions that can't have an undefined
   case (e.g. a plain subtraction like `flow_time`) return a bare value.
-- No module depends on I/O, time, or any external crate — all inputs
-  (durations, counts, percentages) are passed in by the caller as plain
-  numbers; the crate has no concept of "now" or "the network."
+  The `Money`-typed functions are the one exception — see "Money
+  convention" below.
+- No module depends on I/O or time — all inputs (durations, counts,
+  percentages) are passed in by the caller as plain numbers; the crate
+  has no concept of "now" or "the network."
 - `src/lib.rs`'s module doc comment is the crate's own module index by
   theme, mirrored in `README.md`'s "Module index by theme" section —
   keep both in sync when adding or re-categorizing a module.
@@ -109,6 +114,45 @@ In practice this means:
   plus `#[allow(clippy::cast_precision_loss)]` on that one line — see
   `src/pull_request_metrics.rs` or `src/maturity_model.rs` for the
   pattern.
+
+## Money convention
+
+`technical_debt`, `return_on_investment`, and `unit_economics` each have
+an `_money` twin of their plain-`f64` function(s)
+(`debt_carrying_cost_money`, `roi_money`/`net_benefit_money`,
+`total_engineering_cost_money`/`unit_cost_money`), built on
+[`rusty_money::Money<'_, T>`](https://docs.rs/rusty-money) instead of
+`f64`. These are additive — the plain `f64` functions are unchanged and
+remain the default choice — and follow a different error convention on
+purpose:
+
+- Return `Result<Money<'_, T>, MoneyError>` (or `Result<f64, MoneyError>`
+  for a Money-in-ratio-out function like `roi_money`), never `Option`.
+  `rusty_money`'s own arithmetic (`.add`, `.sub`, `.mul`, `.div`) already
+  returns `Result`, and a currency mismatch or overflow is a distinct
+  failure mode from "the denominator happened to be zero" — collapsing
+  both into `None` would hide which one occurred.
+- Propagate `rusty_money`'s own errors with `?` rather than re-wrapping
+  them; only construct a `MoneyError` directly when the crate's own logic
+  needs to signal a case `rusty_money` wouldn't otherwise catch (e.g.
+  `roi_money` returns `MoneyError::DivisionByZero` explicitly once it has
+  already computed the net benefit, since dividing a `Money` by a `Money`
+  isn't a single primitive operation on the type).
+- Every `Money`-typed function needs a `# Errors` doc section (clippy's
+  `missing_errors_doc`, part of the pedantic group, enforces this) and
+  `#[must_use = "..."]` with a short reason, since these are `Result`s
+  that must be checked, not `Option`s.
+- Take integer scalars (`u32`, not `f64`) wherever `rusty_money::Money`
+  is multiplied or divided by a plain count (e.g. `periods: u32` in
+  `debt_carrying_cost_money`) — `Money::mul`/`Money::div` require
+  `N: Into<Decimal>`, which plain `f64` does not implement (deliberately,
+  since an `f64`→`Decimal` conversion can be lossy); an integer type is
+  both correct here and the only type that compiles.
+- When sorting or comparing `f64` inside a function that could otherwise
+  panic on `NaN` (e.g. `partial_cmp().unwrap()`), prefer `f64::total_cmp`
+  instead — it never panics, so there's nothing to document, and it
+  avoids `clippy::missing_panics_doc` (part of the pedantic group)
+  entirely rather than working around it.
 
 ## Adding a new module
 

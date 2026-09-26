@@ -1,16 +1,21 @@
 //! # Software Engineering
 //!
-//! Rust implementations of 22 software-engineering delivery, quality, and
+//! Rust implementations of 27 software-engineering delivery, quality, and
 //! reliability metrics — one module per topic. Each module implements the
 //! formulas from its source chapter in the book *Software Engineering
 //! Metrics* (`software-engineering-metrics/locales/en-001/chapters/*.md`),
 //! documents them with runnable examples, and reproduces the chapter's
 //! worked example (where the chapter gives one) in its unit tests.
 //!
-//! The crate is `std`-only: no external dependencies, all quantities are
-//! `f64` (or a small enum where the source material calls for a category,
-//! such as a SPACE dimension or a vulnerability severity), and functions
-//! return `Option<f64>` wherever a denominator could be zero.
+//! Dependencies are minimal: [`rusty_money`] provides currency-checked
+//! `Money` arithmetic for a handful of financial functions (see each
+//! module's own "Money" section); every other module has none. All
+//! quantities are `f64` (or a small enum where the source material calls
+//! for a category, such as a SPACE dimension or a vulnerability severity),
+//! and functions return `Option<f64>` wherever a denominator could be zero
+//! — except the `Money`-typed functions, which return
+//! `Result<_, rusty_money::MoneyError>` instead, since currency mismatches
+//! and overflow are real failure modes plain `f64` doesn't have.
 //!
 //! ## Quickstart
 //!
@@ -50,15 +55,17 @@
 //! [`lean_value_stream_metrics`], [`pull_request_metrics`], [`dora_metrics`]
 //!
 //! **Developer experience** —
-//! [`space_framework`], [`developer_experience_metrics`]
+//! [`space_framework`], [`developer_experience_metrics`],
+//! [`satisfaction_metrics`], [`activity_metrics`]
 //!
 //! **Code and quality** —
 //! [`code_complexity`], [`test_effectiveness`], [`code_churn`],
-//! [`technical_debt`]
+//! [`technical_debt`], [`static_analysis_metrics`],
+//! [`documentation_and_knowledge_metrics`]
 //!
 //! **Product and business** —
 //! [`escaped_defects`], [`feature_adoption`], [`unit_economics`],
-//! [`return_on_investment`]
+//! [`return_on_investment`], [`customer_and_business_outcome_metrics`]
 //!
 //! **Reliability, operations, and security** —
 //! [`error_budget`], [`incident_metrics`], [`on_call_metrics`],
@@ -73,11 +80,14 @@
 #![deny(clippy::pedantic)]
 #![deny(missing_docs)]
 
+pub mod activity_metrics;
 pub mod ai_assisted_development;
 pub mod code_churn;
 pub mod code_complexity;
+pub mod customer_and_business_outcome_metrics;
 pub mod cycle_time;
 pub mod developer_experience_metrics;
+pub mod documentation_and_knowledge_metrics;
 pub mod dora_metrics;
 pub mod error_budget;
 pub mod escaped_defects;
@@ -90,7 +100,9 @@ pub mod on_call_metrics;
 pub mod pull_request_metrics;
 pub mod queueing_theory;
 pub mod return_on_investment;
+pub mod satisfaction_metrics;
 pub mod space_framework;
+pub mod static_analysis_metrics;
 pub mod technical_debt;
 pub mod test_effectiveness;
 pub mod unit_economics;

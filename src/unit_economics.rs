@@ -43,6 +43,14 @@
 //! assert_eq!(cost_per_customer, 65.0);
 //! ```
 //!
+//! ## Money
+//!
+//! [`total_engineering_cost`] and [`unit_cost`] take plain `f64` amounts.
+//! [`total_engineering_cost_money`] and [`unit_cost_money`] do the
+//! equivalent calculation over [`rusty_money::Money`], so summing cost
+//! components quoted in different currencies is rejected as an error
+//! instead of silently treated as the same unit.
+//!
 //! ## Pitfalls
 //!
 //! - **Choosing an easily inflated denominator** that does not correspond to
@@ -125,6 +133,85 @@ pub fn unit_cost(total_cost: f64, units_delivered: f64) -> Option<f64> {
         return None;
     }
     Some(total_cost / units_delivered)
+}
+
+/// The sum of engineering's three distinct cost components, computed over
+/// [`rusty_money::Money`] instead of plain `f64`.
+///
+/// # Arguments
+///
+/// * `people_cost` — salaries and benefits.
+/// * `infrastructure_cost` — cloud and infrastructure spend, in the same
+///   currency.
+/// * `tooling_cost` — tooling and licensing cost, in the same currency.
+///
+/// # Returns
+///
+/// The total engineering cost, in the same currency.
+///
+/// # Errors
+///
+/// Returns [`rusty_money::MoneyError::CurrencyMismatch`] if the three costs
+/// are not all in the same currency, or
+/// [`rusty_money::MoneyError::Overflow`] if the sum overflows.
+///
+/// # Examples
+///
+/// ```rust
+/// use rusty_money::{Money, iso};
+/// use software_engineering::unit_economics::total_engineering_cost_money;
+///
+/// let people = Money::from_major(500_000, iso::USD);
+/// let infrastructure = Money::from_major(120_000, iso::USD);
+/// let tooling = Money::from_major(30_000, iso::USD);
+/// let total = total_engineering_cost_money(people, infrastructure, tooling).unwrap();
+/// assert_eq!(total, Money::from_major(650_000, iso::USD));
+/// ```
+#[must_use = "this returns a Result and does not panic on a currency mismatch"]
+pub fn total_engineering_cost_money<'a, T: rusty_money::FormattableCurrency>(
+    people_cost: rusty_money::Money<'a, T>,
+    infrastructure_cost: rusty_money::Money<'a, T>,
+    tooling_cost: rusty_money::Money<'a, T>,
+) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError> {
+    people_cost.add(infrastructure_cost)?.add(tooling_cost)
+}
+
+/// Cost per genuine unit of value delivered, computed over
+/// [`rusty_money::Money`] instead of plain `f64`.
+///
+/// # Arguments
+///
+/// * `total_cost` — total engineering cost for the period (typically from
+///   [`total_engineering_cost_money`]).
+/// * `units_delivered` — count of genuine value units delivered in the same
+///   period.
+///
+/// # Returns
+///
+/// The cost per unit, in the same currency as `total_cost`.
+///
+/// # Errors
+///
+/// Returns [`rusty_money::MoneyError::DivisionByZero`] if `units_delivered`
+/// is zero, or [`rusty_money::MoneyError::Overflow`] if the division
+/// overflows.
+///
+/// # Examples
+///
+/// ```rust
+/// use rusty_money::{Money, iso};
+/// use software_engineering::unit_economics::unit_cost_money;
+///
+/// let total = Money::from_major(650_000, iso::USD);
+/// assert_eq!(unit_cost_money(total, 10_000).unwrap(), Money::from_major(65, iso::USD));
+/// assert!(unit_cost_money(total, 0).is_err());
+/// ```
+#[must_use = "this returns a Result and does not panic on division by zero"]
+pub fn unit_cost_money<T: rusty_money::FormattableCurrency>(
+    total_cost: rusty_money::Money<'_, T>,
+    units_delivered: u32,
+) -> Result<rusty_money::Money<'_, T>, rusty_money::MoneyError> {
+    total_cost.div(units_delivered)
 }
 
 #[cfg(test)]

@@ -52,6 +52,14 @@
 //! assert!((optimistic - (2.0 / 3.0)).abs() < 1e-9);
 //! ```
 //!
+//! ## Money
+//!
+//! [`roi`] and [`roi_range`] take plain `f64` amounts. [`roi_money`] and
+//! [`net_benefit_money`] do the equivalent calculation over
+//! [`rusty_money::Money`], so a benefit and cost quoted in different
+//! currencies (USD benefit against a EUR cost, say) are rejected as an
+//! error instead of silently treated as the same unit.
+//!
 //! ## Pitfalls
 //!
 //! - **Costing only the upfront investment**, omitting ongoing maintenance,
@@ -139,6 +147,89 @@ pub fn roi_range(conservative_benefit: f64, optimistic_benefit: f64, cost: f64) 
     let conservative = (conservative_benefit - cost) / cost;
     let optimistic = (optimistic_benefit - cost) / cost;
     Some((conservative, optimistic))
+}
+
+/// Net benefit (`benefit − cost`) computed over [`rusty_money::Money`]
+/// instead of plain `f64`.
+///
+/// # Arguments
+///
+/// * `benefit` — the total realized or projected benefit.
+/// * `cost` — the total cost, in the same currency.
+///
+/// # Returns
+///
+/// The net benefit, positive when `benefit` exceeds `cost`.
+///
+/// # Errors
+///
+/// Returns [`rusty_money::MoneyError::CurrencyMismatch`] if `benefit` and
+/// `cost` are in different currencies, or
+/// [`rusty_money::MoneyError::Overflow`] if the subtraction overflows.
+///
+/// # Examples
+///
+/// ```rust
+/// use rusty_money::{Money, iso};
+/// use software_engineering::return_on_investment::net_benefit_money;
+///
+/// let benefit = Money::from_major(300_000, iso::USD);
+/// let cost = Money::from_major(100_000, iso::USD);
+/// assert_eq!(net_benefit_money(benefit, cost).unwrap(), Money::from_major(200_000, iso::USD));
+/// ```
+#[must_use = "this returns a Result and does not panic on a currency mismatch"]
+pub fn net_benefit_money<'a, T: rusty_money::FormattableCurrency>(
+    benefit: rusty_money::Money<'a, T>,
+    cost: rusty_money::Money<'a, T>,
+) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError> {
+    benefit.sub(cost)
+}
+/// Return on investment computed over [`rusty_money::Money`] instead of
+/// plain `f64`.
+///
+/// `(benefit − cost) / cost`, using [`rusty_money::Money::to_f64_lossy`]
+/// for the final ratio (the ratio itself is always a plain proportion, not
+/// a currency amount).
+///
+/// # Arguments
+///
+/// * `benefit` — the total realized or projected benefit.
+/// * `cost` — the total cost, in the same currency.
+///
+/// # Returns
+///
+/// The ROI as a proportion (not a percentage).
+///
+/// # Errors
+///
+/// Returns [`rusty_money::MoneyError::CurrencyMismatch`] if `benefit` and
+/// `cost` are in different currencies, or
+/// [`rusty_money::MoneyError::DivisionByZero`] if `cost` is zero.
+///
+/// # Examples
+///
+/// ```rust
+/// use rusty_money::{Money, iso};
+/// use software_engineering::return_on_investment::roi_money;
+///
+/// let benefit = Money::from_major(300_000, iso::USD);
+/// let cost = Money::from_major(100_000, iso::USD);
+/// assert!((roi_money(benefit, cost).unwrap() - 2.0).abs() < 1e-9);
+///
+/// // Mismatched currencies are rejected rather than silently divided.
+/// let eur_cost = Money::from_major(100_000, iso::EUR);
+/// assert!(roi_money(benefit, eur_cost).is_err());
+/// ```
+#[must_use = "this returns a Result and does not panic on a currency mismatch or zero cost"]
+pub fn roi_money<'a, T: rusty_money::FormattableCurrency>(
+    benefit: rusty_money::Money<'a, T>,
+    cost: rusty_money::Money<'a, T>,
+) -> Result<f64, rusty_money::MoneyError> {
+    let net = benefit.sub(cost)?;
+    if cost.is_zero() {
+        return Err(rusty_money::MoneyError::DivisionByZero);
+    }
+    Ok(net.to_f64_lossy() / cost.to_f64_lossy())
 }
 
 #[cfg(test)]

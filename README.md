@@ -1,15 +1,20 @@
 # Software Engineering Rust crate
 
 Software engineering metrics models, structs, calculations, and examples —
-22 modules covering delivery flow, developer experience, code and test
+27 modules covering delivery flow, developer experience, code and test
 quality, product and business outcomes, reliability and security, and
 AI-assisted development. One module per topic, based on the book *Software
 Engineering Metrics*.
 
-The crate is `std`-only with **zero external dependencies**. All quantities
-are `f64` (except a few naturally integer or enum-typed values, such as
-McCabe cyclomatic complexity and severity levels), and functions return
-`Option<f64>` wherever a denominator could be zero.
+The crate is `std`-only with **minimal dependencies**: [`rusty-money`](https://crates.io/crates/rusty-money)
+provides currency-checked `Money` arithmetic for a handful of financial
+functions (see each module's own "Money" section); every other module has
+none. Most quantities are `f64` (except a few naturally integer or
+enum-typed values, such as McCabe cyclomatic complexity and severity
+levels), and functions return `Option<f64>` wherever a denominator could be
+zero — except the `Money`-typed functions, which return
+`Result<_, rusty_money::MoneyError>` instead, since currency mismatches and
+overflow are real failure modes plain `f64` doesn't have.
 
 ## Install
 
@@ -17,7 +22,7 @@ Add the dependency to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-software-engineering = "0.1"
+software-engineering = "0.2"
 ```
 
 ## Quickstart
@@ -47,6 +52,26 @@ let return_on_investment = roi(benefit, 150_000.0).unwrap();
 assert!((return_on_investment - 0.36).abs() < 1e-9);
 ```
 
+## Money
+
+A handful of financial functions have a currency-checked variant built on
+[`rusty-money`](https://crates.io/crates/rusty-money)'s `Money` type,
+alongside the plain-`f64` version:
+
+```rust
+use rusty_money::{Money, iso};
+use software_engineering::return_on_investment::roi_money;
+
+let benefit = Money::from_major(300_000, iso::USD);
+let cost = Money::from_major(100_000, iso::USD);
+assert!((roi_money(benefit, cost).unwrap() - 2.0).abs() < 1e-9);
+
+// A benefit and cost in different currencies is an error, not a silent
+// unit mismatch.
+let eur_cost = Money::from_major(100_000, iso::EUR);
+assert!(roi_money(benefit, eur_cost).is_err());
+```
+
 ## Module index by theme
 
 ### Flow metrics
@@ -62,20 +87,25 @@ assert!((return_on_investment - 0.36).abs() < 1e-9);
 
 - `space_framework` — the five SPACE dimensions and coverage checks
 - `developer_experience_metrics` — focus time, survey response rate
+- `satisfaction_metrics` — eNPS-style satisfaction score, satisfaction trend
+- `activity_metrics` — commit-splitting gaming signal, activity rate as context only
 
 ### Code and quality
 
 - `code_complexity` — McCabe cyclomatic complexity
 - `test_effectiveness` — test coverage, mutation kill rate
 - `code_churn` — code churn, hotspot score
-- `technical_debt` — debt carrying cost
+- `technical_debt` — debt carrying cost (plain and [`Money`](https://crates.io/crates/rusty-money)-typed)
+- `static_analysis_metrics` — findings per KLOC, severity-weighted finding score
+- `documentation_and_knowledge_metrics` — bus factor, documentation coverage
 
 ### Product and business
 
 - `escaped_defects` — escaped defect rate
 - `feature_adoption` — initial adoption, retained adoption
-- `unit_economics` — unit cost
-- `return_on_investment` — ROI and ROI as a range
+- `unit_economics` — unit cost (plain and [`Money`](https://crates.io/crates/rusty-money)-typed)
+- `return_on_investment` — ROI and ROI as a range (plain and [`Money`](https://crates.io/crates/rusty-money)-typed)
+- `customer_and_business_outcome_metrics` — net revenue retention, honestly-scoped outcome claims
 
 ### Reliability, operations, and security
 

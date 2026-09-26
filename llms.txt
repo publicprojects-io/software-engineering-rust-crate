@@ -1,12 +1,16 @@
 # software-engineering
 
-> A `std`-only, zero-external-dependency Rust crate of software-engineering
+> A `std`-only Rust crate, with minimal dependencies, of software-engineering
 > metrics: one module per topic (flow, DORA, DevEx, code quality, cost,
 > reliability, security, AI-assisted development, and metrics-program
 > maturity), each implementing the formulas and worked examples from one
 > chapter of the book *Software Engineering Metrics*. Functions are `f64`
 > (or a small `Copy` enum for category values), return `Option<f64>`
-> wherever a denominator could be zero, and never panic.
+> wherever a denominator could be zero, and never panic. A handful of
+> financial functions (in `technical_debt`, `return_on_investment`, and
+> `unit_economics`) additionally have a currency-checked `_money` variant
+> built on [`rusty-money`](https://crates.io/crates/rusty-money)'s `Money`
+> type, returning `Result<_, rusty_money::MoneyError>` instead of `Option`.
 
 ## Docs
 
@@ -28,20 +32,25 @@
 
 - [space_framework](spec/space_framework.md): the five SPACE dimensions and coverage checks
 - [developer_experience_metrics](spec/developer_experience_metrics.md): focus time, survey response rate
+- [satisfaction_metrics](spec/satisfaction_metrics.md): eNPS-style satisfaction score, satisfaction trend
+- [activity_metrics](spec/activity_metrics.md): commit-splitting gaming signal, activity rate as context only
 
 ## Modules — code and quality
 
 - [code_complexity](spec/code_complexity.md): McCabe cyclomatic complexity
 - [test_effectiveness](spec/test_effectiveness.md): test coverage, mutation kill rate
 - [code_churn](spec/code_churn.md): code churn, hotspot score
-- [technical_debt](spec/technical_debt.md): debt carrying cost
+- [technical_debt](spec/technical_debt.md): debt carrying cost — plain `f64` and `Money`-typed
+- [static_analysis_metrics](spec/static_analysis_metrics.md): findings per KLOC, severity-weighted finding score
+- [documentation_and_knowledge_metrics](spec/documentation_and_knowledge_metrics.md): bus factor, documentation coverage
 
 ## Modules — product and business
 
 - [escaped_defects](spec/escaped_defects.md): escaped defect rate, severity-weighted score
 - [feature_adoption](spec/feature_adoption.md): initial adoption, retained adoption
-- [unit_economics](spec/unit_economics.md): unit cost, cost-component split
-- [return_on_investment](spec/return_on_investment.md): ROI and ROI as a range
+- [unit_economics](spec/unit_economics.md): unit cost, cost-component split — plain `f64` and `Money`-typed
+- [return_on_investment](spec/return_on_investment.md): ROI and ROI as a range — plain `f64` and `Money`-typed
+- [customer_and_business_outcome_metrics](spec/customer_and_business_outcome_metrics.md): net revenue retention, honestly-scoped outcome claims
 
 ## Modules — reliability, operations, and security
 

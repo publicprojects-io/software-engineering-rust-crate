@@ -5,13 +5,42 @@
   "license": "MIT OR Apache-2.0 OR BSD-3-Clause OR GPL-2.0-only OR GPL-3.0-only",
   "language": "Rust",
   "edition": "2024",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "name": "rusty-money",
+      "version": "0.5",
+      "purpose": "Currency-checked Money arithmetic, used only by the _money-suffixed functions in technical_debt, return_on_investment, and unit_economics."
+    }
+  ],
   "documentation": {
     "readme": "README.md",
     "agents": "AGENTS.md",
     "spec_index": "spec/README.md"
   },
   "modules": [
+    {
+      "name": "activity_metrics",
+      "title": "Activity Metrics and Their Limits",
+      "description": "**Activity**, the A in SPACE (chapter 3.1), counts the volume of engineering work observable from system telemetry: commits, pull requests opened, lines of code changed. It is the easiest SPACE dimension to measure, because every one of these events is already logged automatically — and that ease of measurement is exactly what makes this dimension the most dangerous one to over-weight.",
+      "chapter": "3.4",
+      "chapter_title": "Activity metrics and their limits",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-04-activity-metrics-and-their-limits.md",
+      "spec": "spec/activity_metrics.md",
+      "source": "src/activity_metrics.rs",
+      "uses_money": false,
+      "functions": [
+        {
+          "name": "is_commit_substitution_gaming_signal",
+          "signature": "pub fn is_commit_substitution_gaming_signal( commit_count_before: f64, commit_count_after: f64, average_commit_size_before: f64, average_commit_size_after: f64, ) -> bool",
+          "summary": "Whether a change in commit count and average commit size matches the"
+        },
+        {
+          "name": "commits_per_engineer_per_week",
+          "signature": "pub fn commits_per_engineer_per_week(commits: f64, engineers: f64, weeks: f64) -> Option<f64>",
+          "summary": "Commits per engineer per week — a simple activity rate, provided only"
+        }
+      ]
+    },
     {
       "name": "ai_assisted_development",
       "title": "Measuring AI-Assisted Software Development",
@@ -21,6 +50,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/07-02-measuring-ai-assisted-software-development.md",
       "spec": "spec/ai_assisted_development.md",
       "source": "src/ai_assisted_development.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "net_cycle_time_change_percent",
@@ -43,6 +73,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-03-code-churn-and-hotspot-analysis.md",
       "spec": "spec/code_churn.md",
       "source": "src/code_churn.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "code_churn",
@@ -65,11 +96,35 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-01-code-complexity-metrics.md",
       "spec": "spec/code_complexity.md",
       "source": "src/code_complexity.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "cyclomatic_complexity",
           "signature": "pub fn cyclomatic_complexity(edges: i64, nodes: i64) -> i64",
           "summary": "`McCabe` cyclomatic complexity: independent paths through control flow."
+        }
+      ]
+    },
+    {
+      "name": "customer_and_business_outcome_metrics",
+      "title": "Customer and Business Outcome Metrics",
+      "description": "This module widens the lens beyond feature-level adoption to the full range of customer and business outcomes an organization actually cares about: revenue retained or grown, customer satisfaction and loyalty, cost reduction, and, for public-sector organizations, the citizen outcomes a mission exists to serve. These outcomes are rarely attributable to engineering alone, and pretending otherwise produces a false-precision problem.",
+      "chapter": "5.3",
+      "chapter_title": "Customer and business outcome metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-03-customer-and-business-outcome-metrics.md",
+      "spec": "spec/customer_and_business_outcome_metrics.md",
+      "source": "src/customer_and_business_outcome_metrics.rs",
+      "uses_money": false,
+      "functions": [
+        {
+          "name": "net_revenue_retention_percent",
+          "signature": "pub fn net_revenue_retention_percent( starting_revenue: f64, revenue_at_period_end_from_starting_cohort: f64, ) -> Option<f64>",
+          "summary": "Net revenue retention: the percentage of a starting cohort's revenue"
+        },
+        {
+          "name": "is_outcome_claim_honestly_scoped",
+          "signature": "pub fn is_outcome_claim_honestly_scoped(contributing_factors_considered: u32) -> bool",
+          "summary": "Whether an engineering-attributed outcome claim is honestly scoped,"
         }
       ]
     },
@@ -82,6 +137,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-06-cycle-time-and-its-components.md",
       "spec": "spec/cycle_time.md",
       "source": "src/cycle_time.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "cycle_time",
@@ -104,6 +160,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-06-efficiency-and-flow.md",
       "spec": "spec/developer_experience_metrics.md",
       "source": "src/developer_experience_metrics.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "is_focus_block",
@@ -118,6 +175,29 @@
       ]
     },
     {
+      "name": "documentation_and_knowledge_metrics",
+      "title": "Documentation and Knowledge Metrics",
+      "description": "This module measures whether the knowledge needed to safely maintain a codebase is actually documented and findable, not just whether documentation technically exists somewhere: does a new engineer, or an existing one working on unfamiliar code, have what they need to make a safe change, or does that knowledge live only in the heads of a shrinking number of tenured people. A system maintained for years by the same two engineers can function perfectly well with almost no written documentation, right up until both of those engineers leave within the same year — at which point the knowledge is discovered to have never been captured anywhere durable.",
+      "chapter": "4.6",
+      "chapter_title": "Documentation and knowledge metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-06-documentation-and-knowledge-metrics.md",
+      "spec": "spec/documentation_and_knowledge_metrics.md",
+      "source": "src/documentation_and_knowledge_metrics.rs",
+      "uses_money": false,
+      "functions": [
+        {
+          "name": "bus_factor",
+          "signature": "pub fn bus_factor(knowledge_shares_percent: &[f64], critical_threshold_percent: f64) -> Option<usize>",
+          "summary": "The bus factor: the minimum number of people whose combined knowledge"
+        },
+        {
+          "name": "is_bus_factor_at_risk",
+          "signature": "pub fn is_bus_factor_at_risk(bus_factor: usize, minimum_safe_bus_factor: usize) -> bool",
+          "summary": "Whether a bus factor is at or below a defined minimum-safe threshold"
+        }
+      ]
+    },
+    {
       "name": "dora_metrics",
       "title": "The DORA Metrics Framework",
       "description": "The **DORA metrics** come from the DevOps Research and Assessment programme, later published as the book *Accelerate*, which surveyed tens of thousands of engineering professionals to find which delivery practices correlate with organizational performance. Four metrics, paired two and two: **deployment frequency** and **lead time for changes** measure speed; **change failure rate** and **failed deployment recovery time** measure stability.",
@@ -126,6 +206,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-10-the-dora-metrics-framework.md",
       "spec": "spec/dora_metrics.md",
       "source": "src/dora_metrics.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "change_failure_rate_percent",
@@ -158,6 +239,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-01-slis-slos-and-error-budgets.md",
       "spec": "spec/error_budget.md",
       "source": "src/error_budget.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "error_budget_minutes",
@@ -185,6 +267,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-01-escaped-defect-rate-and-quality-escapes.md",
       "spec": "spec/escaped_defects.md",
       "source": "src/escaped_defects.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "escaped_defect_rate_percent",
@@ -207,6 +290,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-02-feature-adoption-and-usage-metrics.md",
       "spec": "spec/feature_adoption.md",
       "source": "src/feature_adoption.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "initial_adoption_percent",
@@ -229,6 +313,7 @@
       "source_chapter_path": "02-01-the-flow-framework.md,",
       "spec": "spec/flow_framework.md",
       "source": "src/flow_framework.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "flow_velocity",
@@ -276,6 +361,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-02-incident-metrics.md",
       "spec": "spec/incident_metrics.md",
       "source": "src/incident_metrics.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "mean_time_to_detect_minutes",
@@ -308,6 +394,7 @@
       "source_chapter_path": "02-08-lean-value-stream-metrics.md",
       "spec": "spec/lean_value_stream_metrics.md",
       "source": "src/lean_value_stream_metrics.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "percent_complete_and_accurate",
@@ -335,6 +422,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/08-04-maturity-model-for-engineering-metrics-programs.md",
       "spec": "spec/maturity_model.md",
       "source": "src/maturity_model.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "MaturityDimension",
@@ -362,6 +450,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-03-on-call-capacity-and-operational-load-metrics.md",
       "spec": "spec/on_call_metrics.md",
       "source": "src/on_call_metrics.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "paging_concentration_percent",
@@ -389,6 +478,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-09-pull-request-and-code-review-metrics.md",
       "spec": "spec/pull_request_metrics.md",
       "source": "src/pull_request_metrics.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "time_to_first_review",
@@ -411,6 +501,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/02-07-queueing-theory.md",
       "spec": "spec/queueing_theory.md",
       "source": "src/queueing_theory.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "utilization",
@@ -433,6 +524,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-05-return-on-investment-for-engineering-initiatives.md",
       "spec": "spec/return_on_investment.md",
       "source": "src/return_on_investment.rs",
+      "uses_money": true,
       "functions": [
         {
           "name": "roi",
@@ -443,6 +535,39 @@
           "name": "roi_range",
           "signature": "pub fn roi_range(conservative_benefit: f64, optimistic_benefit: f64, cost: f64) -> Option<(f64, f64)>",
           "summary": "ROI expressed as a conservative-to-optimistic range against the same"
+        },
+        {
+          "name": "net_benefit_money",
+          "signature": "pub fn net_benefit_money<'a, T: rusty_money::FormattableCurrency>( benefit: rusty_money::Money<'a, T>, cost: rusty_money::Money<'a, T>, ) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>",
+          "summary": "Net benefit (`benefit − cost`) computed over [`rusty_money::Money`]"
+        },
+        {
+          "name": "roi_money",
+          "signature": "pub fn roi_money<'a, T: rusty_money::FormattableCurrency>( benefit: rusty_money::Money<'a, T>, cost: rusty_money::Money<'a, T>, ) -> Result<f64, rusty_money::MoneyError>",
+          "summary": "Return on investment computed over [`rusty_money::Money`] instead of"
+        }
+      ]
+    },
+    {
+      "name": "satisfaction_metrics",
+      "title": "Satisfaction and Well-Being Metrics",
+      "description": "**Satisfaction and well-being**, the S in SPACE (chapter 3.1), is the dimension no system telemetry can observe directly. Whether an engineer finds their work meaningful, whether they feel supported by their team, whether they are heading toward burnout — none of this leaves a trace in a version control log or a CI pipeline.",
+      "chapter": "3.2",
+      "chapter_title": "Satisfaction and well-being metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-02-satisfaction-and-well-being-metrics.md",
+      "spec": "spec/satisfaction_metrics.md",
+      "source": "src/satisfaction_metrics.rs",
+      "uses_money": false,
+      "functions": [
+        {
+          "name": "satisfaction_net_score",
+          "signature": "pub fn satisfaction_net_score(promoters: f64, detractors: f64, total_respondents: f64) -> Option<f64>",
+          "summary": "Employee-satisfaction Net Promoter-style score: the percentage of"
+        },
+        {
+          "name": "is_satisfaction_declining",
+          "signature": "pub fn is_satisfaction_declining(previous_score: f64, current_score: f64, decline_threshold: f64) -> bool",
+          "summary": "Whether a satisfaction score has declined enough between two"
         }
       ]
     },
@@ -455,6 +580,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-01-the-space-framework.md",
       "spec": "spec/space_framework.md",
       "source": "src/space_framework.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "SpaceDimension",
@@ -474,6 +600,39 @@
       ]
     },
     {
+      "name": "static_analysis_metrics",
+      "title": "Static Analysis and Code Smell Metrics",
+      "description": "[Static analysis](https://en.wikipedia.org/wiki/Static_program_analysis) tools scan source code without executing it, flagging patterns known to correlate with defects, security vulnerabilities, or maintainability problems, plus the broader category of code smells — structural patterns that are not necessarily bugs but tend to make code harder to understand, test, or safely change. The gap this module addresses is between what a tool reports and what actually matters: a raw finding count conflates trivial style preferences with genuine, severe risk, and it can be driven down through suppression as easily as through real fixes.",
+      "chapter": "4.4",
+      "chapter_title": "Static analysis and code smell metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-04-static-analysis-and-code-smell-metrics.md",
+      "spec": "spec/static_analysis_metrics.md",
+      "source": "src/static_analysis_metrics.rs",
+      "uses_money": false,
+      "functions": [
+        {
+          "name": "FindingSeverity",
+          "signature": "enum FindingSeverity",
+          "summary": "Severity classification for a static-analysis finding."
+        },
+        {
+          "name": "severity_weight",
+          "signature": "pub fn severity_weight(severity: FindingSeverity) -> f64",
+          "summary": "The fixed weight applied to a finding of a given severity in"
+        },
+        {
+          "name": "findings_per_kloc",
+          "signature": "pub fn findings_per_kloc(findings: f64, lines_of_code: f64) -> Option<f64>",
+          "summary": "Findings per thousand lines of code (KLOC) — a normalized density"
+        },
+        {
+          "name": "severity_weighted_finding_score",
+          "signature": "pub fn severity_weighted_finding_score(counts: &[(FindingSeverity, f64)]) -> f64",
+          "summary": "A severity-weighted static-analysis finding score, so a spike in"
+        }
+      ]
+    },
+    {
       "name": "technical_debt",
       "title": "Technical Debt Measurement",
       "description": "**Technical debt**, a metaphor coined by Ward Cunningham, describes the accumulated cost of past shortcuts — expedient decisions that shipped something sooner but left the codebase harder to change afterward, in the same way financial debt lets you spend now at the cost of interest later. Unmeasured debt loses the prioritization competition against feature work by default, not because it matters less, but because it has no visible advocate; quantifying it in terms decision-makers can weigh — cost to fix versus cost of carrying it — is what lets it compete fairly.",
@@ -482,11 +641,17 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-05-technical-debt-measurement.md",
       "spec": "spec/technical_debt.md",
       "source": "src/technical_debt.rs",
+      "uses_money": true,
       "functions": [
         {
           "name": "debt_carrying_cost",
           "signature": "pub fn debt_carrying_cost( velocity_tax_per_period: f64, elevated_defect_cost_per_period: f64, periods: f64, ) -> f64",
           "summary": "Debt carrying cost: the ongoing cost of leaving a debt item unfixed."
+        },
+        {
+          "name": "debt_carrying_cost_money",
+          "signature": "pub fn debt_carrying_cost_money<'a, T: rusty_money::FormattableCurrency>( velocity_tax_per_period: rusty_money::Money<'a, T>, elevated_defect_cost_per_period: rusty_money::Money<'a, T>, periods: u32, ) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>",
+          "summary": "Debt carrying cost, computed over [`rusty_money::Money`] instead of"
         }
       ]
     },
@@ -499,6 +664,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/04-02-test-coverage-and-test-effectiveness.md",
       "spec": "spec/test_effectiveness.md",
       "source": "src/test_effectiveness.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "test_coverage_percent",
@@ -521,6 +687,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/05-04-cost-and-unit-economics-of-engineering.md",
       "spec": "spec/unit_economics.md",
       "source": "src/unit_economics.rs",
+      "uses_money": true,
       "functions": [
         {
           "name": "total_engineering_cost",
@@ -531,6 +698,16 @@
           "name": "unit_cost",
           "signature": "pub fn unit_cost(total_cost: f64, units_delivered: f64) -> Option<f64>",
           "summary": "Cost per genuine unit of value delivered, such as cost per customer"
+        },
+        {
+          "name": "total_engineering_cost_money",
+          "signature": "pub fn total_engineering_cost_money<'a, T: rusty_money::FormattableCurrency>( people_cost: rusty_money::Money<'a, T>, infrastructure_cost: rusty_money::Money<'a, T>, tooling_cost: rusty_money::Money<'a, T>, ) -> Result<rusty_money::Money<'a, T>, rusty_money::MoneyError>",
+          "summary": "The sum of engineering's three distinct cost components, computed over"
+        },
+        {
+          "name": "unit_cost_money",
+          "signature": "pub fn unit_cost_money<T: rusty_money::FormattableCurrency>( total_cost: rusty_money::Money<'_, T>, units_delivered: u32, ) -> Result<rusty_money::Money<'_, T>, rusty_money::MoneyError>",
+          "summary": "Cost per genuine unit of value delivered, computed over"
         }
       ]
     },
@@ -543,6 +720,7 @@
       "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/06-04-security-and-vulnerability-management-metrics.md",
       "spec": "spec/vulnerability_management.md",
       "source": "src/vulnerability_management.rs",
+      "uses_money": false,
       "functions": [
         {
           "name": "VulnerabilitySeverity",
