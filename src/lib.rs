@@ -1,6 +1,6 @@
 //! # Software Engineering
 //!
-//! Rust implementations of 27 software-engineering delivery, quality, and
+//! Rust implementations of 29 software-engineering delivery, quality, and
 //! reliability metrics — one module per topic. Each module implements the
 //! formulas from its source chapter in the book *Software Engineering
 //! Metrics* (`software-engineering-metrics/locales/en-001/chapters/*.md`),
@@ -56,7 +56,8 @@
 //!
 //! **Developer experience** —
 //! [`space_framework`], [`developer_experience_metrics`],
-//! [`satisfaction_metrics`], [`activity_metrics`]
+//! [`satisfaction_metrics`], [`performance_metrics`], [`activity_metrics`],
+//! [`communication_metrics`]
 //!
 //! **Code and quality** —
 //! [`code_complexity`], [`test_effectiveness`], [`code_churn`],
@@ -84,6 +85,7 @@ pub mod activity_metrics;
 pub mod ai_assisted_development;
 pub mod code_churn;
 pub mod code_complexity;
+pub mod communication_metrics;
 pub mod customer_and_business_outcome_metrics;
 pub mod cycle_time;
 pub mod developer_experience_metrics;
@@ -97,6 +99,7 @@ pub mod incident_metrics;
 pub mod lean_value_stream_metrics;
 pub mod maturity_model;
 pub mod on_call_metrics;
+pub mod performance_metrics;
 pub mod pull_request_metrics;
 pub mod queueing_theory;
 pub mod return_on_investment;

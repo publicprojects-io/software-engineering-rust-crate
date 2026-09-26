@@ -31,10 +31,14 @@
 
 ## Modules — developer experience
 
+All five SPACE dimensions (chapter 3.1) have their own dedicated module:
+
 - [space_framework](spec/space_framework.md): the five SPACE dimensions and coverage checks
 - [developer_experience_metrics](spec/developer_experience_metrics.md): focus time, survey response rate
 - [satisfaction_metrics](spec/satisfaction_metrics.md): eNPS-style satisfaction score, satisfaction trend
+- [performance_metrics](spec/performance_metrics.md): converging-signal count, sufficient converging evidence
 - [activity_metrics](spec/activity_metrics.md): commit-splitting gaming signal, activity rate as context only
+- [communication_metrics](spec/communication_metrics.md): cross-team dependency resolution time, time to first contribution
 
 ## Modules — code and quality
 

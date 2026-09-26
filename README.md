@@ -1,10 +1,12 @@
 # Software Engineering Rust crate
 
 Software engineering metrics models, structs, calculations, and examples —
-27 modules covering delivery flow, developer experience, code and test
+29 modules covering delivery flow, developer experience, code and test
 quality, product and business outcomes, reliability and security, and
 AI-assisted development. One module per topic, based on the book *Software
-Engineering Metrics*.
+Engineering Metrics*. Every SPACE dimension (chapter 3.1) — Satisfaction,
+Performance, Activity, Communication, and Efficiency — now has its own
+dedicated module.
 
 The crate is `std`-only with **minimal dependencies**: no module's public
 API takes or returns a [`rusty-money`](https://crates.io/crates/rusty-money)
@@ -21,7 +23,7 @@ Add the dependency to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-software-engineering = "0.3"
+software-engineering = "0.4"
 ```
 
 ## Quickstart
@@ -96,7 +98,9 @@ assert!(benefit.sub(eur_cost).is_err());
 - `space_framework` — the five SPACE dimensions and coverage checks
 - `developer_experience_metrics` — focus time, survey response rate
 - `satisfaction_metrics` — eNPS-style satisfaction score, satisfaction trend
+- `performance_metrics` — converging-signal count, sufficient converging evidence
 - `activity_metrics` — commit-splitting gaming signal, activity rate as context only
+- `communication_metrics` — cross-team dependency resolution time, time to first contribution
 
 ### Code and quality
 

@@ -32,17 +32,21 @@ in this crate takes or returns a `rusty_money` type.
 
 ## Developer experience
 
+All five SPACE dimensions (chapter 3.1) have their own dedicated module:
+
 - [`space_framework`](space_framework.md) — the five SPACE dimensions and coverage checks
 - [`developer_experience_metrics`](developer_experience_metrics.md) — focus time, survey response rate
 - [`satisfaction_metrics`](satisfaction_metrics.md) — eNPS-style satisfaction score, satisfaction trend
+- [`performance_metrics`](performance_metrics.md) — converging-signal count, sufficient converging evidence
 - [`activity_metrics`](activity_metrics.md) — commit-splitting gaming signal, activity rate as context only
+- [`communication_metrics`](communication_metrics.md) — cross-team dependency resolution time, time to first contribution
 
 ## Code and quality
 
 - [`code_complexity`](code_complexity.md) — McCabe cyclomatic complexity
 - [`test_effectiveness`](test_effectiveness.md) — test coverage, mutation kill rate
 - [`code_churn`](code_churn.md) — code churn, hotspot score
-- [`technical_debt`](technical_debt.md) — debt carrying cost (plain and Money-typed)
+- [`technical_debt`](technical_debt.md) — debt carrying cost, with a direct Money usage example
 - [`static_analysis_metrics`](static_analysis_metrics.md) — findings per KLOC, severity-weighted finding score
 - [`documentation_and_knowledge_metrics`](documentation_and_knowledge_metrics.md) — bus factor, documentation coverage
 
@@ -50,8 +54,8 @@ in this crate takes or returns a `rusty_money` type.
 
 - [`escaped_defects`](escaped_defects.md) — escaped defect rate, severity-weighted score
 - [`feature_adoption`](feature_adoption.md) — initial adoption, retained adoption
-- [`unit_economics`](unit_economics.md) — unit cost, cost-component split (plain and Money-typed)
-- [`return_on_investment`](return_on_investment.md) — ROI and ROI as a range (plain and Money-typed)
+- [`unit_economics`](unit_economics.md) — unit cost, cost-component split, with a direct Money usage example
+- [`return_on_investment`](return_on_investment.md) — ROI and ROI as a range, with a direct Money usage example
 - [`customer_and_business_outcome_metrics`](customer_and_business_outcome_metrics.md) — net revenue retention, honestly-scoped outcome claims
 
 ## Reliability, operations, and security

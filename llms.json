@@ -106,6 +106,29 @@
       ]
     },
     {
+      "name": "communication_metrics",
+      "title": "Communication and Collaboration Metrics",
+      "description": "**Communication and collaboration**, the C in SPACE (chapter 3.1), measures how information actually flows between people and teams: how discoverable documentation is, how evenly knowledge spreads, how well cross-team dependencies get coordinated, and how new team members onboard into shared understanding. This dimension is often the least instrumented of the five, precisely because it is harder to observe than delivery data — and that gap matters, because breakdowns here frequently show up, misattributed, in every other dimension: a rising change failure rate that looks like a testing problem is sometimes actually a communication problem, a team that did not know about a dependency's change until it broke in production.",
+      "chapter": "3.5",
+      "chapter_title": "Communication and collaboration metrics",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-05-communication-and-collaboration-metrics.md",
+      "spec": "spec/communication_metrics.md",
+      "source": "src/communication_metrics.rs",
+      "shows_rusty_money_usage_in_docs": false,
+      "functions": [
+        {
+          "name": "cross_team_dependency_resolution_time_days",
+          "signature": "pub fn cross_team_dependency_resolution_time_days(raised_at_days: f64, resolved_at_days: f64) -> f64",
+          "summary": "Time from a cross-team dependency being raised to being resolved: a"
+        },
+        {
+          "name": "time_to_first_contribution_days",
+          "signature": "pub fn time_to_first_contribution_days(joined_at_days: f64, first_contribution_at_days: f64) -> f64",
+          "summary": "Time from a new team member joining to their first meaningful,"
+        }
+      ]
+    },
+    {
       "name": "customer_and_business_outcome_metrics",
       "title": "Customer and Business Outcome Metrics",
       "description": "This module widens the lens beyond feature-level adoption to the full range of customer and business outcomes an organization actually cares about: revenue retained or grown, customer satisfaction and loyalty, cost reduction, and, for public-sector organizations, the citizen outcomes a mission exists to serve. These outcomes are rarely attributable to engineering alone, and pretending otherwise produces a false-precision problem.",
@@ -466,6 +489,29 @@
           "name": "exceeds_sustainable_on_call_frequency",
           "signature": "pub fn exceeds_sustainable_on_call_frequency( weeks_on_call: f64, total_weeks: f64, max_ratio: f64, ) -> Option<bool>",
           "summary": "Whether an engineer's on-call frequency exceeds a given sustainable"
+        }
+      ]
+    },
+    {
+      "name": "performance_metrics",
+      "title": "Performance Metrics and Outcome Proxies",
+      "description": "**Performance**, the P in SPACE (chapter 3.1), is the dimension most often confused with activity: it asks whether work actually produced a good outcome, not how much motion occurred. A team can be highly active and low performing, shipping constant small changes that never move an outcome, and the reverse is equally possible.",
+      "chapter": "3.3",
+      "chapter_title": "Performance metrics and outcome proxies",
+      "source_chapter_path": "software-engineering-metrics/locales/en-001/chapters/03-03-performance-metrics-and-outcome-proxies.md",
+      "spec": "spec/performance_metrics.md",
+      "source": "src/performance_metrics.rs",
+      "shows_rusty_money_usage_in_docs": false,
+      "functions": [
+        {
+          "name": "converging_signal_count",
+          "signature": "pub fn converging_signal_count(signals: &[bool]) -> usize",
+          "summary": "The number of independent signals, out of those checked, that indicate"
+        },
+        {
+          "name": "has_sufficient_converging_evidence",
+          "signature": "pub fn has_sufficient_converging_evidence(signals: &[bool]) -> bool",
+          "summary": "Whether enough independent signals converge to trust a performance"
         }
       ]
     },
