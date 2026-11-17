@@ -81,6 +81,10 @@
 #![deny(clippy::pedantic)]
 #![deny(missing_docs)]
 
+/// Re-export of [`rusty_money`], so callers can build the `Money` values shown in the financial modules' examples
+/// with the exact version this crate's docs and doctests use.
+pub use rusty_money;
+
 pub mod activity_metrics;
 pub mod ai_assisted_development;
 pub mod code_churn;
