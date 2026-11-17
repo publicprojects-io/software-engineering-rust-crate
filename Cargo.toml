@@ -1,7 +1,8 @@
 [package]
 name = "software-engineering"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
+rust-version = "1.98"
 authors = ["Joel Parker Henderson <joel@joelparkerhenderson.com>"]
 description = "Software engineering metrics models, structs, calculations, and examples."
 readme = "README.md"
