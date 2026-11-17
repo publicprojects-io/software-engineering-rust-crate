@@ -108,10 +108,7 @@
 /// assert_eq!(initial_adoption_percent(1.0, 0.0), None);
 /// ```
 #[must_use]
-pub fn initial_adoption_percent(
-    tried_at_least_once: f64,
-    target_audience: f64,
-) -> Option<f64> {
+pub fn initial_adoption_percent(tried_at_least_once: f64, target_audience: f64) -> Option<f64> {
     if target_audience == 0.0 {
         None
     } else {

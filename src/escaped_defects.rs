@@ -183,3 +183,32 @@ mod tests {
         assert!((score - 0.0).abs() < 1e-9);
     }
 }
+
+#[cfg(test)]
+mod weighted_score_tests {
+    use super::{
+        CRITICAL_WEIGHT, MAJOR_WEIGHT, MINOR_WEIGHT, severity_weighted_escaped_defect_score,
+    };
+
+    #[test]
+    fn each_severity_contributes_its_own_weight_per_defect() {
+        assert!(
+            (severity_weighted_escaped_defect_score(2.0, 0.0, 0.0) - 2.0 * CRITICAL_WEIGHT).abs()
+                < 1e-9
+        );
+        assert!(
+            (severity_weighted_escaped_defect_score(0.0, 2.0, 0.0) - 2.0 * MAJOR_WEIGHT).abs()
+                < 1e-9
+        );
+        assert!(
+            (severity_weighted_escaped_defect_score(0.0, 0.0, 2.0) - 2.0 * MINOR_WEIGHT).abs()
+                < 1e-9
+        );
+    }
+
+    #[test]
+    fn severities_sum() {
+        // 2*5 + 3*3 + 4*1 = 23
+        assert!((severity_weighted_escaped_defect_score(2.0, 3.0, 4.0) - 23.0).abs() < 1e-9);
+    }
+}

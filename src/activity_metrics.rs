@@ -121,7 +121,8 @@ pub fn is_commit_substitution_gaming_signal(
     average_commit_size_before: f64,
     average_commit_size_after: f64,
 ) -> bool {
-    commit_count_after > commit_count_before && average_commit_size_after < average_commit_size_before
+    commit_count_after > commit_count_before
+        && average_commit_size_after < average_commit_size_before
 }
 
 /// Commits per engineer per week — a simple activity rate, provided only
@@ -168,17 +169,23 @@ mod tests {
     // into many small, trivial events to inflate a count."
     #[test]
     fn rising_count_with_shrinking_size_is_a_gaming_signal() {
-        assert!(is_commit_substitution_gaming_signal(50.0, 70.0, 120.0, 50.0));
+        assert!(is_commit_substitution_gaming_signal(
+            50.0, 70.0, 120.0, 50.0
+        ));
     }
 
     #[test]
     fn rising_count_with_rising_size_is_not_a_gaming_signal() {
-        assert!(!is_commit_substitution_gaming_signal(50.0, 70.0, 120.0, 140.0));
+        assert!(!is_commit_substitution_gaming_signal(
+            50.0, 70.0, 120.0, 140.0
+        ));
     }
 
     #[test]
     fn falling_count_is_not_a_gaming_signal_regardless_of_size() {
-        assert!(!is_commit_substitution_gaming_signal(70.0, 50.0, 50.0, 120.0));
+        assert!(!is_commit_substitution_gaming_signal(
+            70.0, 50.0, 50.0, 120.0
+        ));
     }
 
     // "Activity data becomes genuinely useful when aggregated at the
@@ -197,5 +204,29 @@ mod tests {
     #[test]
     fn commit_rate_is_none_for_zero_weeks() {
         assert_eq!(commits_per_engineer_per_week(120.0, 6.0, 0.0), None);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::is_commit_substitution_gaming_signal;
+
+    #[test]
+    fn equal_commit_count_is_not_a_gaming_signal() {
+        assert!(!is_commit_substitution_gaming_signal(
+            50.0, 50.0, 50.0, 30.0
+        ));
+    }
+
+    #[test]
+    fn equal_commit_size_is_not_a_gaming_signal() {
+        assert!(!is_commit_substitution_gaming_signal(
+            50.0, 70.0, 50.0, 50.0
+        ));
+    }
+
+    #[test]
+    fn more_commits_of_smaller_size_is_a_gaming_signal() {
+        assert!(is_commit_substitution_gaming_signal(50.0, 70.0, 50.0, 30.0));
     }
 }

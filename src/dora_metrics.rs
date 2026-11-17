@@ -205,7 +205,10 @@ pub fn lead_time_for_changes_hours(first_commit_time_hours: f64, deploy_time_hou
 /// assert_eq!(failed_deployment_recovery_time_hours(10.0, 11.5), 1.5);
 /// ```
 #[must_use]
-pub fn failed_deployment_recovery_time_hours(detected_time_hours: f64, restored_time_hours: f64) -> f64 {
+pub fn failed_deployment_recovery_time_hours(
+    detected_time_hours: f64,
+    restored_time_hours: f64,
+) -> f64 {
     restored_time_hours - detected_time_hours
 }
 

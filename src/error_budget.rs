@@ -149,7 +149,10 @@ pub fn error_budget_burn_rate(actual_downtime_minutes: f64, budget_minutes: f64)
 /// assert_eq!(is_error_budget_exhausted(1.0, 0.0), None);
 /// ```
 #[must_use]
-pub fn is_error_budget_exhausted(actual_downtime_minutes: f64, budget_minutes: f64) -> Option<bool> {
+pub fn is_error_budget_exhausted(
+    actual_downtime_minutes: f64,
+    budget_minutes: f64,
+) -> Option<bool> {
     let burn_rate = error_budget_burn_rate(actual_downtime_minutes, budget_minutes)?;
     Some(burn_rate >= 1.0)
 }

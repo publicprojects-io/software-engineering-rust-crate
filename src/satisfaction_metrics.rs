@@ -103,7 +103,11 @@
 /// assert_eq!(satisfaction_net_score(1.0, 1.0, 0.0), None);
 /// ```
 #[must_use]
-pub fn satisfaction_net_score(promoters: f64, detractors: f64, total_respondents: f64) -> Option<f64> {
+pub fn satisfaction_net_score(
+    promoters: f64,
+    detractors: f64,
+    total_respondents: f64,
+) -> Option<f64> {
     if total_respondents == 0.0 {
         return None;
     }
@@ -143,7 +147,11 @@ pub fn satisfaction_net_score(promoters: f64, detractors: f64, total_respondents
 /// assert!(!is_satisfaction_declining(40.0, 55.0, 10.0));
 /// ```
 #[must_use]
-pub fn is_satisfaction_declining(previous_score: f64, current_score: f64, decline_threshold: f64) -> bool {
+pub fn is_satisfaction_declining(
+    previous_score: f64,
+    current_score: f64,
+    decline_threshold: f64,
+) -> bool {
     current_score < previous_score - decline_threshold
 }
 

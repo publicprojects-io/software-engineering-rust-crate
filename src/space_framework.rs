@@ -54,7 +54,7 @@
 //!     SpaceDimension::Efficiency,
 //! ];
 //! assert!(covers_all_dimensions(&all));
-//! assert!(missing_dimensions(&all).is_empty());
+//! assert_eq!(missing_dimensions(&all).len(), 0);
 //! ```
 //!
 //! ## Pitfalls
@@ -184,7 +184,7 @@ mod tests {
             SpaceDimension::Efficiency,
         ];
         assert!(covers_all_dimensions(&all));
-        assert!(missing_dimensions(&all).is_empty());
+        assert_eq!(missing_dimensions(&all).len(), 0);
     }
 
     // "A metric set drawn entirely from one dimension or one data type is

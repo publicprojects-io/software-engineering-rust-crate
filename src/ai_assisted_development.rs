@@ -100,7 +100,10 @@
 /// assert_eq!(net_cycle_time_change_percent(0.0, 1.0), None);
 /// ```
 #[must_use]
-pub fn net_cycle_time_change_percent(cycle_time_before_hours: f64, cycle_time_after_hours: f64) -> Option<f64> {
+pub fn net_cycle_time_change_percent(
+    cycle_time_before_hours: f64,
+    cycle_time_after_hours: f64,
+) -> Option<f64> {
     if cycle_time_before_hours == 0.0 {
         return None;
     }
