@@ -116,7 +116,11 @@
 /// assert_eq!(total, 650_000.0);
 /// ```
 #[must_use]
-pub fn total_engineering_cost(people_cost: f64, infrastructure_cost: f64, tooling_cost: f64) -> f64 {
+pub fn total_engineering_cost(
+    people_cost: f64,
+    infrastructure_cost: f64,
+    tooling_cost: f64,
+) -> f64 {
     people_cost + infrastructure_cost + tooling_cost
 }
 

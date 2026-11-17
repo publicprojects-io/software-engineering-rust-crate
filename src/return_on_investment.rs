@@ -162,7 +162,11 @@ pub fn roi(benefit: f64, cost: f64) -> Option<f64> {
 /// assert_eq!(roi_range(1.0, 2.0, 0.0), None);
 /// ```
 #[must_use]
-pub fn roi_range(conservative_benefit: f64, optimistic_benefit: f64, cost: f64) -> Option<(f64, f64)> {
+pub fn roi_range(
+    conservative_benefit: f64,
+    optimistic_benefit: f64,
+    cost: f64,
+) -> Option<(f64, f64)> {
     if cost == 0.0 {
         return None;
     }

@@ -101,7 +101,10 @@
 /// assert_eq!(cross_team_dependency_resolution_time_days(10.0, 24.0), 14.0);
 /// ```
 #[must_use]
-pub fn cross_team_dependency_resolution_time_days(raised_at_days: f64, resolved_at_days: f64) -> f64 {
+pub fn cross_team_dependency_resolution_time_days(
+    raised_at_days: f64,
+    resolved_at_days: f64,
+) -> f64 {
     resolved_at_days - raised_at_days
 }
 
@@ -129,7 +132,10 @@ pub fn cross_team_dependency_resolution_time_days(raised_at_days: f64, resolved_
 /// assert_eq!(time_to_first_contribution_days(0.0, 18.0), 18.0);
 /// ```
 #[must_use]
-pub fn time_to_first_contribution_days(joined_at_days: f64, first_contribution_at_days: f64) -> f64 {
+pub fn time_to_first_contribution_days(
+    joined_at_days: f64,
+    first_contribution_at_days: f64,
+) -> f64 {
     first_contribution_at_days - joined_at_days
 }
 

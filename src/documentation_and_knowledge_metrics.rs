@@ -117,7 +117,10 @@
 /// assert_eq!(bus_factor(&[10.0, 10.0], 50.0), None);
 /// ```
 #[must_use]
-pub fn bus_factor(knowledge_shares_percent: &[f64], critical_threshold_percent: f64) -> Option<usize> {
+pub fn bus_factor(
+    knowledge_shares_percent: &[f64],
+    critical_threshold_percent: f64,
+) -> Option<usize> {
     if knowledge_shares_percent.is_empty() {
         return None;
     }
