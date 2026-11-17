@@ -16,6 +16,13 @@ financial modules' docs show how to use directly alongside this crate's
 own plain-`f64` functions (see "Money convention" below) — no module's
 public API takes or returns a `rusty_money` type itself.
 
+## Specification Driven Development
+
+**The `spec/` directory is the source of truth.** 
+- Before doing anything read all files inside the `spec/` directory using your file-reading tools.
+- Treat all files inside `spec/` as strict requirements. Where any file disagrees with the spec, the spec wins: fix the file, or change the spec on purpose and bring the other files into line in the same commit. 
+- Do not improvise structure, style, or citation practice.
+
 ## Commands
 
 ```sh
