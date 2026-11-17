@@ -15,6 +15,13 @@ include = ["src/**/*", "LICENSE.md", "README.md"]
 [dependencies]
 rusty-money = "0.5"
 
+[profile.dev]
+debug = "line-tables-only"
+split-debuginfo = "unpacked"
+
+[profile.dev.package."*"]
+debug = false
+
 # cargo-mutants builds every mutant once in a throwaway copy of the tree: no debug information and no
 # incremental state make each build quicker and smaller. `.cargo/mutants.toml` selects it.
 [profile.mutants]
