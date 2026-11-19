@@ -318,6 +318,34 @@ pub fn flow_efficiency_percent(active_time: f64, total_elapsed_time: f64) -> Opt
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
+
+    proptest! {
+        // Little's law is algebraically reversible for every finite positive
+        // arrival rate in the generated operational range.
+        #[test]
+        fn littles_law_round_trips(
+            arrival_rate in 0.001_f64..10_000.0,
+            flow_time_value in 0.0_f64..10_000.0,
+        ) {
+            let wip = littles_law_wip(arrival_rate, flow_time_value);
+            let recovered = littles_law_flow_time(wip, arrival_rate).unwrap();
+            prop_assert!((recovered - flow_time_value).abs() < 1e-9);
+        }
+
+        // Scaling both the completed-item count and period by the same
+        // positive factor leaves velocity unchanged.
+        #[test]
+        fn flow_velocity_is_scale_invariant(
+            items in 0.0_f64..10_000.0,
+            period in 0.001_f64..10_000.0,
+            scale in 0.001_f64..1_000.0,
+        ) {
+            let original = flow_velocity(items, period).unwrap();
+            let scaled = flow_velocity(items * scale, period * scale).unwrap();
+            prop_assert!((original - scaled).abs() < 1e-9);
+        }
+    }
 
     // Worked example: "the 'features' share of that rising velocity had
     // actually fallen from 70% to 45% over the same period".

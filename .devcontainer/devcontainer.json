@@ -1,0 +1,10 @@
+{
+  "name": "software-engineering-rust-crate",
+  "image": "mcr.microsoft.com/devcontainers/rust:1-1.98-bookworm",
+  "postCreateCommand": "rustup component add clippy rustfmt llvm-tools-preview && cargo fetch --locked",
+  "customizations": {
+    "vscode": {
+      "extensions": ["rust-lang.rust-analyzer", "tamasfe.even-better-toml"]
+    }
+  }
+}

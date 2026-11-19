@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# Verify generated spec views still match module formulas and public APIs.
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "${tmp_dir}"' EXIT
+
+for source in src/*.rs; do
+    [[ "${source}" == "src/lib.rs" ]] && continue
+    module="$(basename "${source}" .rs)"
+    spec="spec/${module}.md"
+
+    awk '
+        /^\/\/! ## Formula$/ { copying = 1; next }
+        copying && /^\/\/! ## / { exit }
+        copying { sub(/^\/\/! ?/, ""); print }
+    ' "${source}" > "${tmp_dir}/source-formula"
+    awk '
+        /^## Formula$/ { copying = 1; next }
+        copying && /^## / { exit }
+        copying { print }
+    ' "${spec}" > "${tmp_dir}/spec-formula"
+    if ! cmp -s "${tmp_dir}/source-formula" "${tmp_dir}/spec-formula"; then
+        echo "formula drift: ${module}" >&2
+        diff -u "${tmp_dir}/spec-formula" "${tmp_dir}/source-formula" || true
+        exit 1
+    fi
+
+    sed -n -E 's/^pub (fn|enum) ([A-Za-z0-9_]+).*/\2/p' "${source}" > "${tmp_dir}/source-api"
+    # shellcheck disable=SC2016 # Backticks are literal Markdown delimiters.
+    sed -n -E 's/^### `([^`]+)`.*/\1/p' "${spec}" > "${tmp_dir}/spec-api"
+    if ! cmp -s "${tmp_dir}/source-api" "${tmp_dir}/spec-api"; then
+        echo "public API drift: ${module}" >&2
+        diff -u "${tmp_dir}/spec-api" "${tmp_dir}/source-api" || true
+        exit 1
+    fi
+
+    awk '
+        /^pub fn / {
+            signature = $0
+            while (signature !~ /\{/) {
+                getline
+                signature = signature " " $0
+            }
+            sub(/[[:space:]]*\{.*/, "", signature)
+            gsub(/[[:space:]]+/, " ", signature)
+            gsub(/\( /, "(", signature)
+            gsub(/ \)/, ")", signature)
+            gsub(/,\)/, ")", signature)
+            print signature
+        }
+    ' "${source}" > "${tmp_dir}/source-signatures"
+    awk '
+        /^pub fn / {
+            collecting = 1
+            signature = $0
+            next
+        }
+        collecting && /^```/ {
+            gsub(/[[:space:]]+/, " ", signature)
+            gsub(/\( /, "(", signature)
+            gsub(/ \)/, ")", signature)
+            gsub(/,\)/, ")", signature)
+            print signature
+            collecting = 0
+            next
+        }
+        collecting { signature = signature " " $0 }
+    ' "${spec}" > "${tmp_dir}/spec-signatures"
+    if ! cmp -s "${tmp_dir}/source-signatures" "${tmp_dir}/spec-signatures"; then
+        echo "public signature drift: ${module}" >&2
+        diff -u "${tmp_dir}/spec-signatures" "${tmp_dir}/source-signatures" || true
+        exit 1
+    fi
+done
+
+echo "spec check passed: formulas, public item names, and function signatures match"

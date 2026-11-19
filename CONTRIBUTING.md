@@ -16,10 +16,16 @@ Read `AGENTS.md` and `spec/` first; the spec is the source of truth. Layout: one
 ```sh
 make ci                                    # runs bin/ci: fmt, clippy, tests + doctests, rustdoc
 make test-minimum-supported-rust-version   # check and test on the MSRV (1.98) and the next minor
+make coverage                              # enforce 100% region/function/line coverage
+make benchmarks                            # run the Criterion benchmark groups
 ```
 
 Run `make ci` before opening a pull request. Adding a module also means updating `src/lib.rs`, the
 README module index, and `spec/`.
+
+For deeper verification, mutation and fuzz campaigns are available with
+`cargo mutants --profile mutants` and `cargo +nightly fuzz run public_api`.
+Dependency changes must also pass `cargo deny check` and `cargo vet --locked`.
 
 ## Code of conduct
 

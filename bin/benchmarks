@@ -1,1 +1,5 @@
+#!/usr/bin/env bash
+# Run the crate's benchmark harnesses.
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
 cargo bench

@@ -169,9 +169,8 @@ mod tests {
     // into many small, trivial events to inflate a count."
     #[test]
     fn rising_count_with_shrinking_size_is_a_gaming_signal() {
-        assert!(is_commit_substitution_gaming_signal(
-            50.0, 70.0, 120.0, 50.0
-        ));
+        let signal = is_commit_substitution_gaming_signal(50.0, 70.0, 120.0, 50.0);
+        assert!(signal);
     }
 
     #[test]

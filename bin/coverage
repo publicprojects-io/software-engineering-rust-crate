@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-# Measure test coverage with cargo-tarpaulin (cargo install cargo-tarpaulin).
-# Usage: bin/coverage   # HTML report: target/coverage/tarpaulin-report.html
+# Measure and enforce test coverage with cargo-llvm-cov.
+# Usage: bin/coverage   # HTML report: target/llvm-cov/html/index.html
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
-cargo tarpaulin --config tarpaulin.toml
+# Instrumented objects must not be reused from an ordinary compiler cache.
+cargo llvm-cov clean --workspace
+RUSTC_WRAPPER='' cargo llvm-cov --all-features --lib --html \
+  --fail-under-functions 100 \
+  --fail-under-lines 100 \
+  --fail-under-regions 100

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Verify the one-module/one-spec invariant and alphabetical module declarations.
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "${tmp_dir}"' EXIT
+
+sed -n 's/^pub mod \([a-z0-9_]*\);$/\1/p' src/lib.rs > "${tmp_dir}/modules"
+sort "${tmp_dir}/modules" > "${tmp_dir}/modules.sorted"
+if ! cmp -s "${tmp_dir}/modules" "${tmp_dir}/modules.sorted"; then
+    echo "src/lib.rs module declarations are not alphabetical" >&2
+    diff -u "${tmp_dir}/modules.sorted" "${tmp_dir}/modules" || true
+    exit 1
+fi
+
+find src -maxdepth 1 -name '*.rs' ! -name lib.rs -exec basename {} .rs \; | sort > "${tmp_dir}/sources"
+find spec -maxdepth 1 -name '*.md' ! -name README.md -exec basename {} .md \; | sort > "${tmp_dir}/specs"
+
+for actual in "${tmp_dir}/sources" "${tmp_dir}/specs"; do
+    if ! cmp -s "${tmp_dir}/modules.sorted" "${actual}"; then
+        echo "module declarations, source modules, and specs do not match" >&2
+        diff -u "${tmp_dir}/modules.sorted" "${actual}" || true
+        exit 1
+    fi
+done
+
+echo "structure check passed: $(wc -l < "${tmp_dir}/modules") modules"

@@ -1,6 +1,6 @@
 [package]
 name = "software-engineering"
-version = "1.1.0"
+version = "1.1.1"
 edition = "2024"
 rust-version = "1.98"
 authors = ["Joel Parker Henderson <joel@joelparkerhenderson.com>"]
@@ -10,10 +10,42 @@ repository = "https://github.com/publicprojects-io/software-engineering-rust-cra
 license = "MIT OR Apache-2.0 OR BSD-3-Clause OR GPL-2.0-only OR GPL-3.0-only"
 keywords = ["software", "engineering", "metrics", "devops", "analytics"]
 categories = ["science", "data-structures", "development-tools"]
-include = ["src/**/*", "LICENSE.md", "README.md"]
+include = [
+    "src/**/*",
+    "examples/**/*",
+    "benches/**/*",
+    "API.md",
+    "ARCHITECTURE.md",
+    "BENCHMARKS.md",
+    "CHANGELOG.md",
+    "COMPARE.md",
+    "COVERAGE.md",
+    "DEPENDENCIES.md",
+    "FAQ.md",
+    "GETTING_STARTED.md",
+    "GLOSSARY.md",
+    "LICENSE.md",
+    "README.md",
+    "ROADMAP.md",
+    "SECURITY.md",
+    "spec/**/*",
+    "STABILITY.md",
+]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 rusty-money = "0.5"
+
+[dev-dependencies]
+criterion = "0.7"
+proptest = "1.11"
+
+[[bench]]
+name = "metrics"
+harness = false
 
 [profile.dev]
 debug = "line-tables-only"

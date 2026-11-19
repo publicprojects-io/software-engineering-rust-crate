@@ -1,5 +1,10 @@
 # Software Engineering Rust crate
 
+[![Crates.io](https://img.shields.io/crates/v/software-engineering.svg)](https://crates.io/crates/software-engineering)
+[![Downloads](https://img.shields.io/crates/d/software-engineering.svg)](https://crates.io/crates/software-engineering)
+[![Documentation](https://docs.rs/software-engineering/badge.svg)](https://docs.rs/software-engineering)
+[![CI](https://github.com/publicprojects-io/software-engineering-rust-crate/actions/workflows/ci.yml/badge.svg)](https://github.com/publicprojects-io/software-engineering-rust-crate/actions/workflows/ci.yml)
+
 Software engineering metrics models, structs, calculations, and examples —
 29 modules covering delivery flow, developer experience, code and test
 quality, product and business outcomes, reliability and security, and
@@ -144,6 +149,29 @@ compiles and asserts under `cargo test --doc`:
 cargo test
 ```
 
+The project enforces 100% region, function, and line coverage. See [`COVERAGE.md`](COVERAGE.md) for
+the reproducible command and scope.
+
+The suite also includes property-based invariants, Criterion benchmarks across
+all module themes, a scheduled mutation campaign, and a nightly libFuzzer
+target that calls every public function. Use `bin/test`, `bin/coverage`, and
+`bin/benchmarks` for the maintained local entry points.
+
+## Guides
+
+- [`GETTING_STARTED.md`](GETTING_STARTED.md) — installation, common patterns, and error handling
+- [`API.md`](API.md) — public API grouped by theme
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — design decisions and module boundaries
+- [`DEPENDENCIES.md`](DEPENDENCIES.md) — runtime and module dependency graph
+- [`FAQ.md`](FAQ.md) — `f64`, money, `Option`, and metric-selection questions
+- [`GLOSSARY.md`](GLOSSARY.md) — the main software-engineering metrics terms
+- [`STABILITY.md`](STABILITY.md) — API compatibility and MSRV policy
+- [`ROADMAP.md`](ROADMAP.md) — planned work and disposition of audit recommendations
+- [`BENCHMARKS.md`](BENCHMARKS.md) and [`COVERAGE.md`](COVERAGE.md) — verification guides
+- [`CHANGELOG.md`](CHANGELOG.md) — release history and migration notes
+
+Runnable examples are in [`examples/`](examples/).
+
 ## Citation
 
 See [`CITATION.cff`](CITATION.cff) for citation metadata.
@@ -157,5 +185,5 @@ your option — or contact us for custom license options. See
 ## Tracking
 
 - Package: [software-engineering](https://crates.io/crates/software-engineering)
-- Repository: [github.com/joelparkerhenderson/software-engineering-rust-crate](https://github.com/joelparkerhenderson/software-engineering-rust-crate)
+- Repository: [github.com/publicprojects-io/software-engineering-rust-crate](https://github.com/publicprojects-io/software-engineering-rust-crate)
 - Author: [Joel Parker Henderson](https://joelparkerhenderson.com) — joel@joelparkerhenderson.com

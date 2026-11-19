@@ -194,18 +194,14 @@ mod tests {
     // or five."
     #[test]
     fn frequency_exceeding_one_week_in_four_is_flagged() {
-        assert_eq!(
-            exceeds_sustainable_on_call_frequency(6.0, 12.0, 0.25),
-            Some(true)
-        );
+        let exceeds = exceeds_sustainable_on_call_frequency(6.0, 12.0, 0.25);
+        assert_eq!(exceeds, Some(true));
     }
 
     #[test]
     fn frequency_at_exactly_one_week_in_four_does_not_exceed_it() {
-        assert_eq!(
-            exceeds_sustainable_on_call_frequency(3.0, 12.0, 0.25),
-            Some(false)
-        );
+        let exceeds = exceeds_sustainable_on_call_frequency(3.0, 12.0, 0.25);
+        assert_eq!(exceeds, Some(false));
     }
 
     #[test]

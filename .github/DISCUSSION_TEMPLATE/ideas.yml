@@ -1,0 +1,10 @@
+title: "[Idea] "
+labels: [idea]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: Explain the decision this would support and cite source material.
+    validations:
+      required: true

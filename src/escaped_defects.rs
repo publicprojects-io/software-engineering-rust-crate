@@ -45,7 +45,7 @@
 //! // But 10 minors already outweigh a single critical.
 //! let ten_minor = severity_weighted_escaped_defect_score(0.0, 0.0, 10.0);
 //! assert!(ten_minor > one_critical);
-//! // And 3 criticals outweigh those same 10 minors.
+//! // And 3 critical defects outweigh those same 10 minors.
 //! let three_critical = severity_weighted_escaped_defect_score(3.0, 0.0, 0.0);
 //! assert!(three_critical > ten_minor);
 //! ```
@@ -171,7 +171,7 @@ mod tests {
     // spike in minor issues does not visually swamp a smaller but far more
     // consequential increase in critical ones."
     #[test]
-    fn a_handful_of_criticals_outweighs_many_minors() {
+    fn a_handful_of_critical_defects_outweighs_many_minors() {
         let ten_minor = severity_weighted_escaped_defect_score(0.0, 0.0, 10.0);
         let three_critical = severity_weighted_escaped_defect_score(3.0, 0.0, 0.0);
         assert!(three_critical > ten_minor);

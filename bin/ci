@@ -8,6 +8,12 @@ export RUSTDOCFLAGS="${RUSTDOCFLAGS:--D warnings}"
 
 echo "==> cargo fmt --check"
 cargo fmt --all -- --check
+echo "==> structure"
+bin/check-structure
+echo "==> specs"
+bin/check-specs
+echo "==> cargo check"
+cargo check --all-targets --all-features
 echo "==> cargo clippy"
 cargo clippy --all-targets --all-features -- -D warnings
 echo "==> cargo test"

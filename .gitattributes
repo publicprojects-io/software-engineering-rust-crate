@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.rs text diff=rust
+*.png binary
+*.jpg binary
+*.pdf binary

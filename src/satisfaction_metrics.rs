@@ -191,6 +191,11 @@ mod tests {
     }
 
     #[test]
+    fn a_drop_exactly_at_the_threshold_is_not_flagged() {
+        assert!(!is_satisfaction_declining(40.0, 30.0, 10.0));
+    }
+
+    #[test]
     fn a_rise_is_never_flagged_as_declining() {
         assert!(!is_satisfaction_declining(40.0, 55.0, 10.0));
     }

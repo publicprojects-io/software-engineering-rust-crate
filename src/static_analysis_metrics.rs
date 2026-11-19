@@ -213,6 +213,16 @@ mod tests {
     }
 
     #[test]
+    fn mixed_severities_are_multiplied_by_their_weights_before_summing() {
+        let score = severity_weighted_finding_score(&[
+            (FindingSeverity::Critical, 2.0),
+            (FindingSeverity::Major, 3.0),
+            (FindingSeverity::Minor, 4.0),
+        ]);
+        assert!((score - 23.0).abs() < 1e-9);
+    }
+
+    #[test]
     fn empty_counts_sum_to_zero() {
         assert!((severity_weighted_finding_score(&[]) - 0.0).abs() < 1e-9);
     }

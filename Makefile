@@ -3,7 +3,7 @@
 ##
 .PHONY: help
 help:
-        @awk '/^##/{a=1-a}a' $(MAKEFILE_LIST) | cut -c3-
+	@awk '/^##/{a=1-a}a' $(MAKEFILE_LIST) | cut -c3-
 
 # newline: This is a print helper when you want to embed a newline in a message.
 define newline
@@ -40,7 +40,7 @@ ci:
 	bin/ci
 
 ##
-# make coverage: : run bin/coverage to generate code coverage analysis with tarpaulin.
+# make coverage: enforce 100% region, function, and line coverage.
 ##
 .PHONY: coverage
 coverage:

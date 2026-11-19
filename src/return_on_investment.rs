@@ -167,11 +167,12 @@ pub fn roi_range(
     optimistic_benefit: f64,
     cost: f64,
 ) -> Option<(f64, f64)> {
-    if cost == 0.0 {
+    let (Some(conservative), Some(optimistic)) = (
+        roi(conservative_benefit, cost),
+        roi(optimistic_benefit, cost),
+    ) else {
         return None;
-    }
-    let conservative = (conservative_benefit - cost) / cost;
-    let optimistic = (optimistic_benefit - cost) / cost;
+    };
     Some((conservative, optimistic))
 }
 

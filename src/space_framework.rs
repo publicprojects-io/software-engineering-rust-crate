@@ -221,15 +221,13 @@ mod tests {
     fn missing_dimensions_preserve_canonical_order() {
         let empty: [SpaceDimension; 0] = [];
         let missing = missing_dimensions(&empty);
-        assert_eq!(
-            missing,
-            vec![
-                SpaceDimension::Satisfaction,
-                SpaceDimension::Performance,
-                SpaceDimension::Activity,
-                SpaceDimension::Communication,
-                SpaceDimension::Efficiency,
-            ]
-        );
+        let expected = vec![
+            SpaceDimension::Satisfaction,
+            SpaceDimension::Performance,
+            SpaceDimension::Activity,
+            SpaceDimension::Communication,
+            SpaceDimension::Efficiency,
+        ];
+        assert_eq!(missing, expected);
     }
 }

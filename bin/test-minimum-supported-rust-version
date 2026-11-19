@@ -23,7 +23,7 @@ while IFS= read -r manifest; do
   done
   if [[ "${dir}" != "." && -f "./Cargo.toml" ]] && grep -q '^\[workspace\]' ./Cargo.toml; then covered=1; fi
   [[ "${covered}" == 0 ]] && roots+=("${dir}")
-done < <(find . \( -name target -o -name node_modules -o -name .git \) -prune -o -name Cargo.toml -print | sort)
+done < <(find . \( -name target -o -name node_modules -o -name .git -o -name fuzz \) -prune -o -name Cargo.toml -print | sort)
 
 n2="$(grep -rh --include=Cargo.toml --exclude-dir=target --exclude-dir=node_modules '^rust-version *= *"' . | head -1 | sed -E 's/.*"([^"]+)".*/\1/')"
 if [[ ! "${n2}" =~ ^1\.([0-9]+)$ ]]; then
