@@ -80,6 +80,7 @@
 
 #![deny(clippy::pedantic)]
 #![deny(missing_docs)]
+#![forbid(unsafe_code)]
 
 /// Re-export of [`rusty_money`], so callers can build the `Money` values shown in the financial modules' examples
 /// with the exact version this crate's docs and doctests use.

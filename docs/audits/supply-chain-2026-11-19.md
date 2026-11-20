@@ -17,7 +17,7 @@ branch protection, or secret rotation.
 | Licenses and sources | `cargo deny check bans licenses sources` | Pass |
 | Dependency review policy | `cargo vet --locked` | Pass with 104 explicit initial exemptions |
 | Unused dependencies | `cargo machete` | None found |
-| Unsafe in project source | `rg -n '\bunsafe\b' src` | No unsafe blocks |
+| Unsafe in project source | crate-level `#![forbid(unsafe_code)]` | Compile-time prohibition |
 | Locked reproducibility | `Cargo.lock`; CI uses `--locked` for package/release work | Present |
 | Publishability | `cargo package --offline --locked --allow-dirty` | Package verified |
 | MSRV | `rust-version = "1.98"`; matrix for 1.98 and 1.99 | Declared and automated |

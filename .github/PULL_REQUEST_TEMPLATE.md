@@ -1,3 +1,5 @@
+# Pull request
+
 ## Summary
 
 Describe the user-visible change and the source chapter or issue it addresses.
@@ -11,5 +13,5 @@ Describe the user-visible change and the source chapter or issue it addresses.
 - [ ] `src/lib.rs` and README module indexes remain synchronized and alphabetical.
 - [ ] `cargo fmt --all -- --check`, `cargo clippy --all-targets`, `cargo test`, and
       `cargo doc --no-deps` pass.
-- [ ] `bin/coverage` remains at 100% line coverage.
+- [ ] `bin/coverage` remains at 100% region, function, and line coverage.
 - [ ] `CHANGELOG.md` describes user-visible changes.

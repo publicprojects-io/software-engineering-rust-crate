@@ -186,4 +186,5 @@ your option — or contact us for custom license options. See
 
 - Package: [software-engineering](https://crates.io/crates/software-engineering)
 - Repository: [github.com/publicprojects-io/software-engineering-rust-crate](https://github.com/publicprojects-io/software-engineering-rust-crate)
-- Author: [Joel Parker Henderson](https://joelparkerhenderson.com) — joel@joelparkerhenderson.com
+- Author: [Joel Parker Henderson](https://joelparkerhenderson.com) —
+  [joel@joelparkerhenderson.com](mailto:joel@joelparkerhenderson.com)

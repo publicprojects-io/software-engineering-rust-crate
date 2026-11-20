@@ -1,0 +1,16 @@
+{
+  "config": {
+    "MD013": false,
+    "MD024": { "siblings_only": true },
+    "MD033": false
+  },
+  "ignores": [
+    ".claude/**",
+    "AGENTS.md",
+    "docs/audits/benchmarks/**",
+    "docs/audits/mistral-medium-3-5-high/**",
+    "fuzz/target/**",
+    "mutants.out*/**",
+    "target/**"
+  ]
+}

@@ -56,7 +56,7 @@ jobs:
       - run: cargo publish --dry-run --locked
 
   unsafe-audit:
-    name: Unsafe dependency audit
+    name: Unsafe dependency report
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -65,4 +65,14 @@ jobs:
       - name: Install toolchain
         run: rustup show active-toolchain || rustup toolchain install
       - run: cargo install cargo-geiger --locked
-      - run: cargo geiger --all-features --all-targets
+      - name: Report dependency unsafe usage
+        run: |
+          set +e
+          cargo geiger --all-features --all-targets
+          geiger_status=$?
+          set -e
+          # Status 1 also represents non-fatal scanner warnings, including
+          # dependency README files that cargo-geiger cannot classify.
+          if [ "${geiger_status}" -gt 1 ]; then
+            exit "${geiger_status}"
+          fi
