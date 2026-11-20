@@ -6,7 +6,7 @@ Install the coverage runner once, then run the project command:
 
 ```sh
 cargo install cargo-llvm-cov
-bin/coverage
+bin/test-coverage
 ```
 
 The command runs every library test with every feature, fails if region,

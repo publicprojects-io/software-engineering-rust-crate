@@ -7,7 +7,7 @@ data acquisition, so benchmarks are diagnostic rather than an API promise.
 Run all benchmark harnesses with:
 
 ```sh
-bin/benchmarks
+bin/test-benchmarks
 ```
 
 Record the toolchain, CPU, operating system, power mode, and command with any

@@ -23,8 +23,8 @@ Below are **prioritized, actionable improvement tasks** across **New Visitors/Pr
 | **High** | Add `funding.yml` | 0.5h | Medium | Enable GitHub Sponsors button. Currently no funding mechanism visible. |
 | **Medium** | Create project roadmap | 2h | Medium | Add `ROADMAP.md` outlining planned modules/chapters from the sibling book not yet implemented. |
 | **Medium** | Add comparison table | 2h | Medium | Create `COMPARE.md` showing how this crate differs from alternatives (e.g., `dev-metrics`, custom implementations). |
-| **Medium** | Add `BENCHMARKS.md` | 1h | Medium | Document benchmark results and how to run/reproduce them. Currently `bin/benchmarks` exists but no docs. |
-| **Medium** | Add `COVERAGE.md` | 1h | Medium | Document coverage targets and results from `bin/coverage`. Currently exists but undocumented. |
+| **Medium** | Add `BENCHMARKS.md` | 1h | Medium | Document benchmark results and how to run/reproduce them. Currently `bin/test-benchmarks` exists but no docs. |
+| **Medium** | Add `COVERAGE.md` | 1h | Medium | Document coverage targets and results from `bin/test-coverage`. Currently exists but undocumented. |
 | **Low** | Create `ARCHITECTURE.md` | 2h | Low | Document the architectural decisions (std-only, no async, rusty-money integration pattern). |
 
 ### A2: Documentation & Learning Path
@@ -46,7 +46,7 @@ Below are **prioritized, actionable improvement tasks** across **New Visitors/Pr
 
 | Priority | Task | Effort | Impact | Details |
 |----------|------|--------|--------|---------|
-| **High** | Publish to crates.io v1.1.1 | 1h | High | Current version is 1.1.0 but `bin/coverage` and `bin/benchmarks` were added after. Package these in next version. |
+| **High** | Publish to crates.io v1.1.1 | 1h | High | Current version is 1.1.0 but `bin/test-coverage` and `bin/test-benchmarks` were added after. Package these in next version. |
 | **High** | Add `cargo-crev` verification | 2h | Medium | Create `crev` proofs for supply chain security. Growing importance in Rust ecosystem. |
 | **High** | Create GitHub Discussions templates | 1h | Medium | Add templates for Q&A, Ideas, Show and Tell. Currently no Discussions. |
 | **High** | Add social media links | 0.5h | Medium | Add Twitter/Mastodon/LinkedIn links in README for project updates. |
@@ -105,10 +105,10 @@ Below are **prioritized, actionable improvement tasks** across **New Visitors/Pr
 | **High** | Add property-based testing | 4h | High | Use `proptest` or `quickcheck` to test edge cases and invariants. Especially valuable for mathematical formulas. |
 | **High** | Add mutation testing | 2h | High | `cargo-mutants` is referenced in Cargo.toml but not in CI. Configure and add to CI workflow. |
 | **High** | Add fuzz testing | 4h | High | Use `cargo-fuzz` to fuzz test all public functions with random inputs. Critical for catching edge cases in math-heavy code. |
-| **High** | Add benchmark tests | 4h | High | `bin/benchmarks` exists but is empty. Create criterion benchmarks for all modules. |
+| **High** | Add benchmark tests | 4h | High | `bin/test-benchmarks` exists but is empty. Create criterion benchmarks for all modules. |
 | **High** | Add integration tests | 4h | High | Create `tests/` directory with cross-module integration tests. Currently only unit tests exist. |
 | **High** | Add snapshot testing for docs | 2h | Medium | Ensure doc examples don't regress. Use `trycmd` or similar. |
-| **Medium** | Add test coverage target | 1h | Medium | Set minimum coverage threshold (e.g., 90%) and enforce in CI. Currently `bin/coverage` exists but no target. |
+| **Medium** | Add test coverage target | 1h | Medium | Set minimum coverage threshold (e.g., 90%) and enforce in CI. Currently `bin/test-coverage` exists but no target. |
 | **Medium** | Add `cargo-nextest` for faster tests | 1h | Medium | Use nextest for parallel test execution. |
 | **Medium** | Add `cargo-llvm-cov` as alternative | 1h | Medium | Alternative to tarpaulin for coverage. |
 | **Medium** | Add `cargo-inst` for installation testing | 1h | Medium | Test that `cargo install` works correctly. |

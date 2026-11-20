@@ -22,7 +22,7 @@ and cannot be truthfully completed by changing this checkout.
 | Alphabetical modules and package dry-run | Done | `bin/check-structure`, `bin/ci`, security workflow |
 | Generated spec drift | Done | `bin/check-specs` compares every formula, public item list, and function signature in CI |
 | Property, mutation, fuzz, benchmark testing | Done | Proptest invariants, mutation workflow/config, public-API fuzz target, Criterion harness |
-| Coverage target and llvm-cov | Done | `bin/coverage` enforces 100%; CI gate |
+| Coverage target and llvm-cov | Done | `bin/test-coverage` enforces 100%; CI gate |
 | Cross-platform, MSRV, stable, nightly | Done | CI matrices and compatibility job |
 | ARM architecture testing | Done | `macos-latest` is an ARM64 GitHub-hosted runner; CI labels the architecture explicitly |
 | Check, docs, release, SBOM automation | Done | CI/security/release workflows |

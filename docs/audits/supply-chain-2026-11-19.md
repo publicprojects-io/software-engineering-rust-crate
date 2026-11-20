@@ -23,7 +23,7 @@ branch protection, or secret rotation.
 | MSRV | `rust-version = "1.98"`; matrix for 1.98 and 1.99 | Declared and automated |
 | API compatibility | `cargo semver-checks check-release` against 1.1.0 | 229 checks passed; patch release valid |
 | Test integrity | 141 unit/property tests, 103 doctests, 468/468 viable mutants caught | Automated |
-| Coverage | `bin/coverage` | 100% regions/functions/lines enforced |
+| Coverage | `bin/test-coverage` | 100% regions/functions/lines enforced |
 | Fuzzing | `fuzz/fuzz_targets/public_api.rs` | Every public function exercised |
 | Release artifacts | `.github/workflows/release.yml` | Crate, CycloneDX SBOM, SHA-256 sums, provenance attestation |
 | CI permissions | Read-only by default; release-artifact job alone has `contents: write` | Least privilege by job purpose |

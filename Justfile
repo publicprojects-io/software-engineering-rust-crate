@@ -9,10 +9,10 @@ test:
     cargo test --doc --all-features
 
 coverage:
-    bin/coverage
+    bin/test-coverage
 
 benchmarks:
-    bin/benchmarks
+    bin/test-benchmarks
 
 msrv:
-    bin/test-minimum-supported-rust-version
+    bin/make-ci-minimum-supported-rust-version

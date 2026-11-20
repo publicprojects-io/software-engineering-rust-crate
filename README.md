@@ -154,8 +154,8 @@ the reproducible command and scope.
 
 The suite also includes property-based invariants, Criterion benchmarks across
 all module themes, a scheduled mutation campaign, and a nightly libFuzzer
-target that calls every public function. Use `bin/test`, `bin/coverage`, and
-`bin/benchmarks` for the maintained local entry points.
+target that calls every public function. Use `bin/test`, `bin/test-coverage`, and
+`bin/test-benchmarks` for the maintained local entry points.
 
 ## Guides
 

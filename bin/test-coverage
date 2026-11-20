@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Measure and enforce test coverage with cargo-llvm-cov.
-# Usage: bin/coverage   # HTML report: target/llvm-cov/html/index.html
+# Usage: bin/test-coverage   # HTML report: target/llvm-cov/html/index.html
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 # Instrumented objects must not be reused from an ordinary compiler cache.
