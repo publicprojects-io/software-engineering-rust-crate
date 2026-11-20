@@ -40,7 +40,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 rusty-money = "0.5"
 
 [dev-dependencies]
-criterion = "0.7"
+criterion = "0.8"
 proptest = "1.11"
 
 [[bench]]
