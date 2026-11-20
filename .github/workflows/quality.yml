@@ -19,16 +19,24 @@ jobs:
       - uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20
         with:
           globs: "**/*.md"
-      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
-        with:
-          args: --no-progress --exclude-path docs/audits "./**/*.md"
-          fail: true
       - uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c # v3
         with:
           config_file: .yamllint.yml
       - uses: ludeeus/action-shellcheck@00b27aa7cb85167568cb48a3838b75f4265f2bca # master
         with:
           scandir: ./bin
+      # Release comparison links are intentionally valid only once their tag
+      # exists. GNU rate-limits CI and the author site intermittently times out.
+      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
+        with:
+          args: >-
+            --no-progress
+            --exclude-path docs/audits
+            --exclude-path CHANGELOG.md
+            --exclude-path LICENSE.md
+            --exclude https://joelparkerhenderson.com/
+            "./**/*.md"
+          fail: true
 
   unused-dependencies:
     runs-on: ubuntu-latest
