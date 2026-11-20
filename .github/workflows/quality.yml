@@ -16,7 +16,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: crate-ci/typos@b41eb62e9a8096c9ba6636e2365d3f56018a203c # master
-      - uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20
+      - uses: DavidAnson/markdownlint-cli2-action@696eb3f2509270d7b882d2aa68347bc676e7af34 # v25.0.0
         with:
           globs: "**/*.md"
       - uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c # v3
