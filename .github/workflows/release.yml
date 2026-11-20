@@ -26,7 +26,11 @@ jobs:
       - run: cargo package --locked
       - run: cargo cyclonedx --format json --all
       - name: Checksums
-        run: sha256sum target/package/*.crate *.cdx.json > SHA256SUMS
+        run: |
+          sha256sum *.cdx.json > SHA256SUMS
+          for artifact in target/package/*.crate; do
+            sha256sum "$artifact" | sed 's|  .*/|  |' >> SHA256SUMS
+          done
       - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
         with:
           subject-path: target/package/*.crate
